@@ -87,7 +87,7 @@ import bodyParser from 'body-parser'
 ```
 and use it BEFORE all routes:
 ```
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: false}));
 ```
 
 

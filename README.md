@@ -8,9 +8,9 @@ Server Side Code is complex! Just handling data in a previous example was diffic
 - It is a framework that has helper functions and tools & rules of how to structure your code
 
 ### Alternatives
-- Vanilla NodeJS
+- Vanilla NodeJS : 
   Just write everything yourself
-- Adonis.js
+- Adonis.js: 
   Laravel inspired.
 - Koa
 - Salis.js

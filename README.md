@@ -18,6 +18,51 @@ Server Side Code is complex! Just handling data in a previous example was diffic
 
 Express is still the most popular and most used. It is highly flexible and extensible. Lots of 3rd Party Packages have been built for it. 
 
+### Middleware
+
+With middleware, we ditch the one request handler and instead adopt a system where the request passes between middlewares with next() to indicate it must continue and res.send() to indicate it is over.
+
+This allows you to split your code into chunks and pieces and add multiple 3rd party packages to add functionalities
+
 ## Installation
+
+1. Install express
+```
+npm install --save express
+```
+2. Install types/express
+```
+npm install --save-dev types/express
+```
+3. Import it to the app
+```
+import express from 'express'
+```
+4. Create an express app
+```
+const app = express();
+```
+This is a constant that has a lot of functions and is a valid request handler.
+```
+const server = http.createServer(app);
+```
+
+## Usage
+
+To add listeners and middleware to you app:
+```
+const app = express();
+app.use((req, res, next) => {});
+app.listen(3000);
+```
+The function passed in use will be run on every incoming request. req and res are the usual with some extra features. next must be executed for the request to travel on to the next middleware.
+
+### Sending Response
+
+Express adds:
+```
+res.send(... html code);
+```
+Automaticallys set the header 'html/text'. We no longer need to do all these writes.
 
 

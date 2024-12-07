@@ -74,4 +74,21 @@ res.send(... html code);
 ```
 Automaticallys set the header 'html/text'. We no longer need to do all these writes.
 
+### Parsing request bodies
+
+We want to add a 3rd party library to parse the request body, so we install it:
+```
+npm install --save body-parser
+npm install --save-dev @types/body-parser
+```
+Then import it:
+```
+import bodyParser from 'body-parser'
+```
+and use it BEFORE all routes:
+```
+app.use(bodyParser.urlencoded());
+```
+
+
 

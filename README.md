@@ -57,6 +57,15 @@ app.listen(3000);
 ```
 The function passed in use will be run on every incoming request. req and res are the usual with some extra features. next must be executed for the request to travel on to the next middleware.
 
+Note that the middlewares are executed in the order that they are put in there so this is important because:
+
+```
+app.use('/', (req: Request, res: Response) => {
+  ...
+})
+```
+The path '/' only checks if the path CONTAINS a '/' so if it is added first, then all pages will be handled by it.
+
 ### Sending Response
 
 Express adds:

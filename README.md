@@ -90,5 +90,18 @@ and use it BEFORE all routes:
 app.use(bodyParser.urlencoded({extended: false}));
 ```
 
+### Handling paths cleaner:
+We could use __dirname, but a cleaner way to get the root directory of the file is:
+```
+import path from 'path';
+
+const rootDir = path.dirname(require!.main!.filename);
+
+export default rootDir;
+```
+Then retrieving files can look like this:
+```
+res.status(404).sendFile(path.join(rootDir, 'views', '404.html'));
+```
 
 

@@ -104,4 +104,16 @@ Then retrieving files can look like this:
 res.status(404).sendFile(path.join(rootDir, 'views', '404.html'));
 ```
 
+## Serving Files Statically
+
+Generally create a public folder.
+
+We register a middleware to serve files publically:
+```
+app.use(express.static(path.join(__dirname, 'public')));
+```
+Place the file in a folder in /public/css and in the HTML file:
+```
+<link rel="stylesheet" href="/css/main.css">
+```
 

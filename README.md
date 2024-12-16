@@ -117,3 +117,33 @@ Place the file in a folder in /public/css and in the HTML file:
 <link rel="stylesheet" href="/css/main.css">
 ```
 
+## Templating Engine
+
+Engines that take HTMLish code, injects content dynamically created by NodeJS and turns it into pure HTML content. The HTML is generated on the fly based on dynamic content. 
+
+### Available Templating Engines
+
+- EJS
+- Pug (Jade)
+- Handlebars
+
+#### EJS
+```
+<p><%= name %></p>
+```
+Normal HTML and plain javascript
+
+#### Pug (Jade)
+Uses minimized HTML
+```
+p #{name}
+```
+ custom templating language
+
+#### Handlebars
+```
+<p>{{ name }}</p>
+```
+
+Use normal HTML and custom template language
+

@@ -149,6 +149,25 @@ npm install --save pug
 npm install --save-dev @types/pug
 ```
 
+In our app.js
+```
+const app = express();
+app.set('view engine', 'pug'); // used to set global config value for express application
+app.set('views', path.join(__dirname, 'pug'));
+```
+Then to render a pug view
+```
+res.render('shop');
+```
+Now to add dynamic content we just add the objects we wish to use in our template in the render call as a javascript object:
+```
+res.render('shop', { title: "Test Title" })
+```
+Then in the pug file
+```
+h1 #{title}
+```
+
 #### Handlebars
 ```
 <p>{{ name }}</p>

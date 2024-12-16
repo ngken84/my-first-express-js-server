@@ -11,12 +11,18 @@
   "description": "",
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
+    "@types/ejs": "^3.1.5",
     "@types/express": "github:types/express",
+    "@types/express-handlebars": "^5.3.1",
     "@types/node": "^22.10.1",
+    "@types/pug": "^2.0.10",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
-    "express": "^4.21.2"
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "pug": "^3.0.3"
   }
 }

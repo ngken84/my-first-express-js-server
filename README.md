@@ -132,6 +132,10 @@ Engines that take HTMLish code, injects content dynamically created by NodeJS an
 <p><%= name %></p>
 ```
 Normal HTML and plain javascript
+```
+npm install --save ejs
+npm install --save-dev @types/ejs
+```
 
 #### Pug (Jade)
 Uses minimized HTML
@@ -140,10 +144,18 @@ p #{name}
 ```
  custom templating language
 
+```
+npm install --save pug
+npm install --save-dev @types/pug
+```
+
 #### Handlebars
 ```
 <p>{{ name }}</p>
 ```
-
 Use normal HTML and custom template language
+```
+npm install --save express-handlebars
+npm install --save-dev @types/express-handlebars
+```
 

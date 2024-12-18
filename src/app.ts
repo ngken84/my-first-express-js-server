@@ -1,15 +1,20 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path'
+import { engine } from 'express-handlebars';
 
 import adminRoutes from './routes/admin';
 import shopRoutes from './routes/shop';
-import rootDir from './helper/path';
 
 const app = express();
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'pug'));
+// app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'pug'));
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars')
+app.set('views', path.join(__dirname, 'hbs'));
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));

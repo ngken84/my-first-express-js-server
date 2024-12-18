@@ -8,7 +8,9 @@ const router = express.Router();
 export const products: {title: string}[] = [];
 
 router.use('/add-product', (req: Request, res: Response, next: () => void) => {
-    res.render('admin');
+    res.render('admin', {
+        path: '/admin/add-product'
+    });
 });
 
 router.post('/product', (req: Request, res: Response, next: () => void) => {

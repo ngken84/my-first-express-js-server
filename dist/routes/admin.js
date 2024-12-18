@@ -8,7 +8,9 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 exports.products = [];
 router.use('/add-product', (req, res, next) => {
-    res.render('admin');
+    res.render('admin', {
+        path: '/admin/add-product'
+    });
 });
 router.post('/product', (req, res, next) => {
     const { title } = req.body;

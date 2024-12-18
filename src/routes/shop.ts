@@ -7,7 +7,11 @@ import { products } from './admin';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: () => void) => {
-    res.render('shop', {products : products, title: 'My little shop'});
+    res.render('shop', {
+        products : products, 
+        title: 'My little shop',
+        path: '/'
+    });
 });
 
 export default router;

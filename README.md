@@ -206,6 +206,11 @@ block content
   main
     h1 content
 ```
+Dynamic classes
+```
+h1(class=(path==='/' ? 'active' : ''))
+```
+
 
 #### Handlebars
 ```

@@ -167,6 +167,10 @@ Then in the pug file
 ```
 h1 #{title}
 ```
+Then to create a loop:
+```
+each product in products
+```
 
 #### Handlebars
 ```

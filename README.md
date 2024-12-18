@@ -171,6 +171,14 @@ Then to create a loop:
 ```
 each product in products
 ```
+Ifs are also just as easy:
+```
+if products.length > 0
+  h1 display this code
+else
+  h1 display if false
+```
+https://pugjs.org/api/getting-started.html
 
 #### Handlebars
 ```

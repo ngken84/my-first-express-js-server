@@ -137,18 +137,20 @@ npm install --save ejs
 npm install --save-dev @types/ejs
 ```
 
-#### Pug (Jade)
+## Pug (Jade)
 Uses minimized HTML
 ```
 p #{name}
 ```
  custom templating language
 
+### Installation
 ```
 npm install --save pug
 npm install --save-dev @types/pug
 ```
 
+### Usage
 In our app.js
 ```
 const app = express();
@@ -167,10 +169,13 @@ Then in the pug file
 ```
 h1 #{title}
 ```
+https://pugjs.org/api/getting-started.html
+#### Loops
 Then to create a loop:
 ```
 each product in products
 ```
+### Conditionals
 Ifs are also just as easy:
 ```
 if products.length > 0
@@ -178,7 +183,29 @@ if products.length > 0
 else
   h1 display if false
 ```
-https://pugjs.org/api/getting-started.html
+
+### Layouts
+An example: 
+```
+head
+  <...>
+  block styles
+body
+  <...>
+  block content
+```
+styles and content provide two "hooks" that can be used in later layouts
+
+```
+extends layouts/main-layout.pug
+
+block styles
+  link(rel="stylesheet", href="/css/forms.css")
+
+block content
+  main
+    h1 content
+```
 
 #### Handlebars
 ```

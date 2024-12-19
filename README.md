@@ -221,4 +221,45 @@ Use normal HTML and custom template language
 npm install --save express-handlebars
 npm install --save-dev @types/express-handlebars
 ```
+In the app js we set up handlebars
+```
+import { engine } from 'express-handlebars';
+...
+const app = express();
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars')
+app.set('views', path.join(__dirname, 'hbs'));
+```
+We create a directory in the dist folder called 'hbs' which we referenced in the views setting above. Create a folder within that folder called 'layouts' and put a file called main.handlebars in it with the code:
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Example App</title>
+</head>
+<body>
+
+    {{{body}}}
+
+</body>
+</html>
+```
+Then we can create our templates like usual with the filename .handlebars
+
+### Loops
+```
+{{#each products}}
+  <h1 class="product__title">{{../prefix}}{{title}}</h1>
+{{/each}}
+```
+
+### Conditionals
+```
+{{#if products.length}}
+  <h1>Display text here!</h1>
+{{ else }}
+  <h1>Don't display text</h1>
+{{/if}}
+```
 

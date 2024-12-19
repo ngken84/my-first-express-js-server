@@ -8,8 +8,10 @@ const admin_1 = require("./admin");
 const router = express_1.default.Router();
 router.get('/', (req, res, next) => {
     res.render('shop', {
+        productsCSS: true,
         products: admin_1.products,
         title: 'My little shop',
+        activeShop: true,
         path: '/'
     });
 });

@@ -9,7 +9,10 @@ export const products: {title: string}[] = [];
 
 router.use('/add-product', (req: Request, res: Response, next: () => void) => {
     res.render('admin', {
-        path: '/admin/add-product'
+        pageTitle: "Add Product",
+        formCSS: true,
+        path: '/admin/add-product',
+        activeAddProd: true
     });
 });
 

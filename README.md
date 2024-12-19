@@ -212,7 +212,7 @@ h1(class=(path==='/' ? 'active' : ''))
 ```
 
 
-#### Handlebars
+## Handlebars
 ```
 <p>{{ name }}</p>
 ```

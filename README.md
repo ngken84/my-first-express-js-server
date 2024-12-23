@@ -127,7 +127,7 @@ Engines that take HTMLish code, injects content dynamically created by NodeJS an
 - Pug (Jade)
 - Handlebars
 
-#### EJS
+## EJS
 ```
 <p><%= name %></p>
 ```
@@ -136,6 +136,13 @@ Normal HTML and plain javascript
 npm install --save ejs
 npm install --save-dev @types/ejs
 ```
+Update the view engine in the app.ts file 
+```
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'ejs'));
+```
+
+
 
 ## Pug (Jade)
 Uses minimized HTML

@@ -136,12 +136,47 @@ Normal HTML and plain javascript
 npm install --save ejs
 npm install --save-dev @types/ejs
 ```
+
+### Usage
 Update the view engine in the app.ts file 
 ```
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'ejs'));
 ```
+To render the page
+```
+res.render('shop', { pageTitle: "My Title", title: "Test Title" })
+```
+with shop revering to the /ejs/shop.ejs file
 
+#### Text insertion
+In the ejs file which is structured like an html file
+```
+<title><%= pageTitle %></title>
+```
+
+### Conditional
+```
+<% if(products.length > 0) { %>
+  <div>output if products.length greater than 0 <div>
+<% } else { %>
+  <div>Array is empty</div>
+<%  } %>
+```
+
+### Looping
+<% for (let product of products) {  %>
+  <div>
+    <%= product.title %>
+  </div>
+<% } %>
+
+### includes
+For similar usage as templates you can create ejs files
+```
+<%- include('includes/nav.ejs') %>
+```
+Note that <%- does not escape html so be wary that you don't allow cross scripting attacks via it!
 
 
 ## Pug (Jade)

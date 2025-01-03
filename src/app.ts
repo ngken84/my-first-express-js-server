@@ -27,7 +27,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use('/', (req : Request, res: Response, next: () => void) => {
-    res.status(404).render('404', {pageTitle: '404'});
+    res.status(404).render('404', {pageTitle: '404', path : undefined});
 });
 
 app.listen(3000);

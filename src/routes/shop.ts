@@ -2,11 +2,12 @@ import express, { Request, Response} from 'express';
 import path from 'path';
 
 import rootDir from '../helper/path';
-import { products } from './admin';
+import { products } from '../controllers/product';
 
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: () => void) => {
+    console.log(products);
     res.render('shop', {
         productsCSS: true,
         products : products, 

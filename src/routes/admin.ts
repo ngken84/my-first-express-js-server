@@ -1,25 +1,11 @@
-import express, { Request, Response } from 'express';
-import path from "path";
+import express from 'express';
 
-import rootDir from '../helper/path';
+import { getAddProduct, postAddProduct } from '../controllers/product';
 
 const router = express.Router();
 
-export const products: {title: string}[] = [];
+router.use('/add-product', getAddProduct);
 
-router.use('/add-product', (req: Request, res: Response, next: () => void) => {
-    res.render('admin', {
-        pageTitle: "ADMIN: Add Product",
-        formCSS: true,
-        path: '/admin/add-product',
-        activeAddProd: true
-    });
-});
-
-router.post('/product', (req: Request, res: Response, next: () => void) => {
-    const { title } = req.body as { title: string };
-    products.push({title});
-    res.redirect('../');
-});
+router.post('/product', postAddProduct);
 
 export default router;

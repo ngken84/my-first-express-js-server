@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postAddProduct = exports.getAddProduct = exports.products = void 0;
-exports.products = [];
+const products = [];
 const getAddProduct = (req, res, next) => {
     res.render('admin', {
         pageTitle: "ADMIN: Add Product",
@@ -10,10 +9,24 @@ const getAddProduct = (req, res, next) => {
         activeAddProd: true
     });
 };
-exports.getAddProduct = getAddProduct;
 const postAddProduct = (req, res, next) => {
     const { title } = req.body;
-    exports.products.push({ title });
+    products.push({ title });
     res.redirect('../');
 };
-exports.postAddProduct = postAddProduct;
+const getProducts = (req, res, next) => {
+    res.render('shop', {
+        productsCSS: true,
+        products: products,
+        pageTitle: "Shop",
+        title: 'My little shop',
+        activeShop: true,
+        path: '/'
+    });
+};
+const ProductsController = {
+    getAddProduct,
+    postAddProduct,
+    getProducts
+};
+exports.default = ProductsController;

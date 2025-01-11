@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-export const products: {title: string}[] = [];
+const products: {title: string}[] = [];
 
-export const getAddProduct = (req: Request, res: Response, next: () => void) => {
+const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin', {
         pageTitle: "ADMIN: Add Product",
         formCSS: true,
@@ -11,8 +11,27 @@ export const getAddProduct = (req: Request, res: Response, next: () => void) => 
     });
 }
 
-export const postAddProduct = (req: Request, res: Response, next: () => void) => {
+const postAddProduct = (req: Request, res: Response, next: () => void) => {
     const { title } = req.body as { title: string };
     products.push({title});
     res.redirect('../');
 }
+
+const getProducts = (req: Request, res: Response, next: () => void) => {
+    res.render('shop', {
+        productsCSS: true,
+        products : products, 
+        pageTitle: "Shop",
+        title: 'My little shop',
+        activeShop: true,
+        path: '/'
+    });
+}
+
+const ProductsController = {
+    getAddProduct,
+    postAddProduct,
+    getProducts
+}
+
+export default ProductsController;

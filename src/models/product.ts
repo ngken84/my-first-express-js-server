@@ -2,8 +2,6 @@ import * as fs from 'fs';
 import path from 'path';
 import rootDir from '../helper/path';
 
-const products: Product[] = [];
-
 export default class Product {
 
     title: string;

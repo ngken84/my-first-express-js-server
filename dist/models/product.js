@@ -29,7 +29,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const path_2 = __importDefault(require("../helper/path"));
-const products = [];
 class Product {
     constructor(title) {
         this.title = title;

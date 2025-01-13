@@ -30,10 +30,16 @@ const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const path_2 = __importDefault(require("../helper/path"));
 class Product {
-    constructor(title, description, cost) {
+    constructor(title, description, cost, id = 0) {
         this.title = title;
         this.description = description;
         this.cost = cost;
+        if (id < 1) {
+            this.id = Date.now();
+        }
+        else {
+            this.id = id;
+        }
     }
     static getFilePath() {
         return path_1.default.join(path_2.default, 'data', 'products.json');
@@ -53,7 +59,8 @@ class Product {
             array.push({
                 title: this.title,
                 description: this.description,
-                cost: this.cost
+                cost: this.cost,
+                id: this.id
             });
             fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
                 callback(err);
@@ -64,7 +71,7 @@ class Product {
         Product.getProductJsonArrayFromFile((array) => {
             const prodArray = [];
             for (let prodJson of array) {
-                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost);
+                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost, prodJson.id);
                 prodArray.push(newProduct);
             }
             callback(prodArray);

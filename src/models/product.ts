@@ -2,16 +2,18 @@ import * as fs from 'fs';
 import path from 'path';
 import rootDir from '../helper/path';
 
-interface ProductInterface {
-    title: string
+export interface ProductInterface {
+    title: string,
+    description: string,
+    cost: string
 }
 
 export default class Product {
 
-    title: string;
-
-    constructor(title: string) {
-        this.title = title;
+    constructor(
+        public title: string, 
+        public description: string,
+        public cost: string) {
     }
     
     private static getFilePath() {
@@ -31,7 +33,11 @@ export default class Product {
 
     save(callback: (err: NodeJS.ErrnoException | null) => void) {
         Product.getProductJsonArrayFromFile((array) => {
-            array.push({title: this.title});
+            array.push({
+                title: this.title, 
+                description: this.description,
+                cost: this.cost
+            });
             fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
                 callback(err);
             });
@@ -42,7 +48,7 @@ export default class Product {
         Product.getProductJsonArrayFromFile((array) => {
             const prodArray: Product[] = [];
             for(let prodJson of array) {
-                let newProduct = new Product(prodJson.title);
+                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost);
                 prodArray.push(newProduct);
             }
             callback(prodArray);

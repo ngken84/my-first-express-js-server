@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import Product from '../models/product';
+import Product, { ProductInterface } from '../models/product';
 
 const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin/add-product', {
@@ -10,8 +10,8 @@ const getAddProduct = (req: Request, res: Response, next: () => void) => {
 }
 
 const postAddProduct = (req: Request, res: Response, next: () => void) => {
-    const { title } = req.body as { title: string };
-    const product = new Product(title);
+    const { title, description, cost } = req.body as ProductInterface;
+    const product = new Product(title, description, cost);
     product.save((err) => {
         res.redirect('../');
     });

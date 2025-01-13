@@ -11,8 +11,8 @@ const getAddProduct = (req, res, next) => {
     });
 };
 const postAddProduct = (req, res, next) => {
-    const { title } = req.body;
-    const product = new product_1.default(title);
+    const { title, description, cost } = req.body;
+    const product = new product_1.default(title, description, cost);
     product.save((err) => {
         res.redirect('../');
     });

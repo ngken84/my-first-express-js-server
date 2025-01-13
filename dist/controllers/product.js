@@ -15,17 +15,20 @@ const getAddProduct = (req, res, next) => {
 const postAddProduct = (req, res, next) => {
     const { title } = req.body;
     const product = new product_1.default(title);
-    product.save();
-    res.redirect('../');
+    product.save((err) => {
+        res.redirect('../');
+    });
 };
 const getProducts = (req, res, next) => {
-    res.render('shop', {
-        productsCSS: true,
-        products: product_1.default.fetchAll(),
-        pageTitle: "Shop",
-        title: 'My little shop',
-        activeShop: true,
-        path: '/'
+    product_1.default.fetchAll((products) => {
+        res.render('shop', {
+            productsCSS: true,
+            products: products,
+            pageTitle: "Shop",
+            title: 'My little shop',
+            activeShop: true,
+            path: '/'
+        });
     });
 };
 const ProductsController = {

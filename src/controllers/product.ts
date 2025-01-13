@@ -14,19 +14,24 @@ const getAddProduct = (req: Request, res: Response, next: () => void) => {
 const postAddProduct = (req: Request, res: Response, next: () => void) => {
     const { title } = req.body as { title: string };
     const product = new Product(title);
-    product.save();
-    res.redirect('../');
+    product.save((err) => {
+        res.redirect('../');
+    });
+    
 }
 
 const getProducts = (req: Request, res: Response, next: () => void) => {
-    res.render('shop', {
-        productsCSS: true,
-        products : Product.fetchAll(), 
-        pageTitle: "Shop",
-        title: 'My little shop',
-        activeShop: true,
-        path: '/'
-    });
+    Product.fetchAll((products) => {
+        res.render('shop', {
+            productsCSS: true,
+            products : products, 
+            pageTitle: "Shop",
+            title: 'My little shop',
+            activeShop: true,
+            path: '/'
+        });
+    })
+    
 }
 
 const ProductsController = {

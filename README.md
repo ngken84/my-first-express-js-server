@@ -305,3 +305,18 @@ Then we can create our templates like usual with the filename .handlebars
 {{/if}}
 ```
 
+# MVC (Model View Controller)
+
+What is MVC? Model View Controller
+
+- Models
+Represents data and manipulates data. Saving and fetching data.
+
+- Views
+What users sees. Rendering the correct content in the HTML. Decoupled from application code
+
+- Controllers
+Connection point between model and views. Works with models to save and fetching data for the views. 
+
+## Implementing MVC Pattern
+

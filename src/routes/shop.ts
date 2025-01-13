@@ -1,7 +1,5 @@
-import express, { Request, Response} from 'express';
-import path from 'path';
+import express from 'express';
 
-import rootDir from '../helper/path';
 import ProductsController from '../controllers/product';
 
 const router = express.Router();

@@ -2,6 +2,10 @@ import * as fs from 'fs';
 import path from 'path';
 import rootDir from '../helper/path';
 
+interface ProductInterface {
+    title: string
+}
+
 export default class Product {
 
     title: string;
@@ -14,12 +18,12 @@ export default class Product {
         return path.join(rootDir, 'data', 'products.json');
     }
 
-    private static getProductJsonArrayFromFile(callback: (array: {title: string}[]) =>  void) {
+    private static getProductJsonArrayFromFile(callback: (array: ProductInterface[]) =>  void) {
         const p = Product.getFilePath();
         fs.readFile(p, 'utf8', (err, fileContent) => {
-            let products : {title : string}[] = [];
+            let products : ProductInterface[] = [];
             if(!err) {
-                products = JSON.parse(fileContent) as {title: string}[];
+                products = JSON.parse(fileContent) as ProductInterface[];
             }
             callback(products);
         });

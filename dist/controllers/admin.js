@@ -7,9 +7,7 @@ const product_1 = __importDefault(require("../models/product"));
 const getAddProduct = (req, res, next) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
-        formCSS: true,
         path: '/admin/add-product',
-        activeAddProd: true
     });
 };
 const postAddProduct = (req, res, next) => {

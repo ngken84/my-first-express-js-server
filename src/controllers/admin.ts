@@ -5,9 +5,7 @@ import Product from '../models/product';
 const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
-        formCSS: true,
         path: '/admin/add-product',
-        activeAddProd: true
     });
 }
 

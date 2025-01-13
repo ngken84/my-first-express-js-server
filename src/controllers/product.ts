@@ -23,21 +23,25 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
 const getProducts = (req: Request, res: Response, next: () => void) => {
     Product.fetchAll((products) => {
         res.render('shop/product-list', {
-            productsCSS: true,
             products : products, 
-            pageTitle: "Shop",
-            title: 'My little shop',
-            activeShop: true,
-            path: '/'
+            pageTitle: "Product List",
+            path: '/products'
         });
     })
-    
+}
+
+const getAdminProductList = (req: Request, res: Response, next: () => void) => {
+    res.render('admin/product-list', {
+        pageTitle: "ADMIN: Product List",
+        path: '/admin/product-list'
+    });
 }
 
 const ProductsController = {
     getAddProduct,
     postAddProduct,
-    getProducts
+    getProducts,
+    getAdminProductList
 }
 
 export default ProductsController;

@@ -1,13 +1,13 @@
 import express from 'express';
 
-import ProductsController from '../controllers/product';
+import AdminController from '../controllers/admin';
 
 const router = express.Router();
 
-router.get('/add-product', ProductsController.getAddProduct);
+router.get('/add-product', AdminController.getAddProduct);
 
-router.post('/product', ProductsController.postAddProduct);
+router.post('/product', AdminController.postAddProduct);
 
-router.get('/product-list', ProductsController.getAdminProductList);
+router.get('/product-list', AdminController.getAdminProductList);
 
 export default router;

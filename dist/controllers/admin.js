@@ -19,25 +19,15 @@ const postAddProduct = (req, res, next) => {
         res.redirect('../');
     });
 };
-const getProducts = (req, res, next) => {
-    product_1.default.fetchAll((products) => {
-        res.render('shop/product-list', {
-            products: products,
-            pageTitle: "Product List",
-            path: '/products'
-        });
-    });
-};
 const getAdminProductList = (req, res, next) => {
     res.render('admin/product-list', {
         pageTitle: "ADMIN: Product List",
         path: '/admin/product-list'
     });
 };
-const ProductsController = {
+const AdminController = {
     getAddProduct,
     postAddProduct,
-    getProducts,
     getAdminProductList
 };
-exports.default = ProductsController;
+exports.default = AdminController;

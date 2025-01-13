@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const product_1 = __importDefault(require("../controllers/product"));
+const admin_1 = __importDefault(require("../controllers/admin"));
 const router = express_1.default.Router();
-router.get('/add-product', product_1.default.getAddProduct);
-router.post('/product', product_1.default.postAddProduct);
-router.get('/product-list', product_1.default.getAdminProductList);
+router.get('/add-product', admin_1.default.getAddProduct);
+router.post('/product', admin_1.default.postAddProduct);
+router.get('/product-list', admin_1.default.getAdminProductList);
 exports.default = router;

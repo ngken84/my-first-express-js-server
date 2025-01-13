@@ -36,27 +36,28 @@ class Product {
     static getFilePath() {
         return path_1.default.join(path_2.default, 'data', 'products.json');
     }
-    save(callback) {
+    static getProductJsonArrayFromFile(callback) {
         const p = Product.getFilePath();
         fs.readFile(p, 'utf8', (err, fileContent) => {
             let products = [];
             if (!err) {
                 products = JSON.parse(fileContent);
             }
-            products.push({ title: this.title });
-            fs.writeFile(p, JSON.stringify(products), 'utf8', (err) => {
+            callback(products);
+        });
+    }
+    save(callback) {
+        Product.getProductJsonArrayFromFile((array) => {
+            array.push({ title: this.title });
+            fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
                 callback(err);
             });
         });
     }
     static fetchAll(callback) {
-        fs.readFile(Product.getFilePath(), 'utf8', (err, fileContent) => {
-            if (err || !fileContent) {
-                return callback([]);
-            }
-            const jsonArray = JSON.parse(fileContent);
+        Product.getProductJsonArrayFromFile((array) => {
             const prodArray = [];
-            for (let prodJson of jsonArray) {
+            for (let prodJson of array) {
                 let newProduct = new Product(prodJson.title);
                 prodArray.push(newProduct);
             }

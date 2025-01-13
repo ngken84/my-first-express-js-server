@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Product } from '../models/product';
-
-const products: Product[] = [];
+import { Product, products } from '../models/product';
 
 const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin', {
@@ -15,7 +13,8 @@ const getAddProduct = (req: Request, res: Response, next: () => void) => {
 
 const postAddProduct = (req: Request, res: Response, next: () => void) => {
     const { title } = req.body as { title: string };
-    products.push(new Product(title));
+    const product = new Product(title);
+    product.save();
     res.redirect('../');
 }
 

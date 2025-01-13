@@ -24,8 +24,33 @@ export default class Product {
         } else {
             this.id = id;
         }
+        if(this.cost && this.cost.length > 0 && this.cost[0] !== '$') {
+            this.cost = '$' + this.cost;
+        }
+    }
+
+    validateTitle() {
+        if(!this.title || this.title.length == 0) {
+            return "Please enter a title.";
+        }
+    }
+
+    validateDescription() {
+        if(!this.description || this.description.length == 0) {
+            return "Please enter a description.";
+        }
     }
     
+    validateCost() {
+        if(!this.cost || this.cost.length == 0) {
+            return "Please enter a cost.";
+        }
+        const regex = /^\$?(0|[1-9]\d*)(\.\d{1,2})?$/;
+        if(!regex.test(this.cost)) {
+            return "Please enter a valid cost.";
+        }
+    }
+
     private static getFilePath() {
         return path.join(rootDir, 'data', 'products.json');
     }

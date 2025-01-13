@@ -6,12 +6,32 @@ const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
         path: '/admin/add-product',
+        product: new Product('', '', ''),
+        descriptionError: undefined,
+        titleError: undefined,
+        costError: undefined
     });
 }
 
 const postAddProduct = (req: Request, res: Response, next: () => void) => {
     const { title, description, cost } = req.body as ProductInterface;
     const product = new Product(title, description, cost);
+
+    const titleError = product.validateTitle();
+    const descriptionError = product.validateDescription();
+    const costError = product.validateCost();
+
+    if(titleError || descriptionError || costError) {
+        return res.render('admin/add-product', {
+            pageTitle: "ADMIN: Add Product",
+            path: '/admin/add-product',
+            product: product,
+            descriptionError,
+            titleError,
+            costError
+        });
+    }
+
     product.save((err) => {
         res.redirect('../');
     });

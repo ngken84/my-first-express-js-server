@@ -18,3 +18,19 @@
 .form-control input:focus {
     outline-color: #00695c;
 }
+
+.has-error > input {
+    border: 1px solid red !important;
+}
+
+.has-error > label {
+    color: red;
+}
+
+.has-error > textarea {
+    border: 1px solid red !important;   
+}
+
+.form-control-error {
+    color: red;
+}

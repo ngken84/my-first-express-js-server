@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../models/product"));
 const getAddProduct = (req, res, next) => {
-    res.render('admin', {
+    res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
         formCSS: true,
         path: '/admin/add-product',
@@ -21,7 +21,7 @@ const postAddProduct = (req, res, next) => {
 };
 const getProducts = (req, res, next) => {
     product_1.default.fetchAll((products) => {
-        res.render('shop', {
+        res.render('shop/product-list', {
             productsCSS: true,
             products: products,
             pageTitle: "Shop",

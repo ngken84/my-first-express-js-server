@@ -1,6 +1,6 @@
-export const products: Product[] = [];
+const products: Product[] = [];
 
-export class Product {
+export default class Product {
 
     title: string;
 
@@ -10,5 +10,9 @@ export class Product {
 
     save() {
         products.push(this);
+    }
+
+    static fetchAll() {
+        return products;
     }
 }

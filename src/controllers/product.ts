@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Product, products } from '../models/product';
+import Product from '../models/product';
 
 const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin', {
@@ -21,7 +21,7 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
 const getProducts = (req: Request, res: Response, next: () => void) => {
     res.render('shop', {
         productsCSS: true,
-        products : products, 
+        products : Product.fetchAll(), 
         pageTitle: "Shop",
         title: 'My little shop',
         activeShop: true,

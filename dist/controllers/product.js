@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const product_1 = require("../models/product");
+const product_1 = __importDefault(require("../models/product"));
 const getAddProduct = (req, res, next) => {
     res.render('admin', {
         pageTitle: "ADMIN: Add Product",
@@ -11,14 +14,14 @@ const getAddProduct = (req, res, next) => {
 };
 const postAddProduct = (req, res, next) => {
     const { title } = req.body;
-    const product = new product_1.Product(title);
+    const product = new product_1.default(title);
     product.save();
     res.redirect('../');
 };
 const getProducts = (req, res, next) => {
     res.render('shop', {
         productsCSS: true,
-        products: product_1.products,
+        products: product_1.default.fetchAll(),
         pageTitle: "Shop",
         title: 'My little shop',
         activeShop: true,

@@ -7,6 +7,6 @@ const express_1 = __importDefault(require("express"));
 const admin_1 = __importDefault(require("../controllers/admin"));
 const router = express_1.default.Router();
 router.get('/add-product', admin_1.default.getAddProduct);
-router.post('/product', admin_1.default.postAddProduct);
+router.post('/add-product', admin_1.default.postAddProduct);
 router.get('/product-list', admin_1.default.getAdminProductList);
 exports.default = router;

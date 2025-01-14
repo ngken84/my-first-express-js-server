@@ -4,7 +4,7 @@
 <body>
     <%- include('../includes/nav.ejs') %>   
     <main>
-        <form class="product-form" action="/admin/product" method="POST">
+        <form class="product-form" action="/admin/add-product" method="POST">
             <div class="form-control <%= titleError ? 'has-error' : '' %>">
                 <label for="title">Title</label>
                 <input id="title" type="text" value="<%= product.title %>" name="title">
@@ -20,6 +20,15 @@
                 <% if(descriptionError) { %>
                     <div class="form-control-error">
                         <%= descriptionError %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-control <%= imageError ? 'has-error' : '' %>">
+                <label for="imageUrl">Image URL</label>
+                <input id="imageUrl" type="text" name="imageUrl" value="<%= product.imageUrl %>">
+                <% if(imageError) { %>
+                    <div class="form-control-error">
+                        <%= imageError %>
                     </div>
                 <% } %>
             </div>

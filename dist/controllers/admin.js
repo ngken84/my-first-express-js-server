@@ -8,18 +8,20 @@ const getAddProduct = (req, res, next) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
         path: '/admin/add-product',
-        product: new product_1.default('', '', ''),
+        product: new product_1.default('', '', '', ''),
         descriptionError: undefined,
         titleError: undefined,
+        imageError: undefined,
         costError: undefined
     });
 };
 const postAddProduct = (req, res, next) => {
-    const { title, description, cost } = req.body;
-    const product = new product_1.default(title, description, cost);
+    const { title, description, cost, imageUrl } = req.body;
+    const product = new product_1.default(title, description, cost, imageUrl);
     const titleError = product.validateTitle();
     const descriptionError = product.validateDescription();
     const costError = product.validateCost();
+    const imageError = product.validateImageUrl();
     if (titleError || descriptionError || costError) {
         return res.render('admin/add-product', {
             pageTitle: "ADMIN: Add Product",
@@ -27,7 +29,8 @@ const postAddProduct = (req, res, next) => {
             product: product,
             descriptionError,
             titleError,
-            costError
+            costError,
+            imageError
         });
     }
     product.save((err) => {

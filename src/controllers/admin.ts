@@ -6,20 +6,22 @@ const getAddProduct = (req: Request, res: Response, next: () => void) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
         path: '/admin/add-product',
-        product: new Product('', '', ''),
+        product: new Product('', '', '', ''),
         descriptionError: undefined,
         titleError: undefined,
+        imageError: undefined,
         costError: undefined
     });
 }
 
 const postAddProduct = (req: Request, res: Response, next: () => void) => {
-    const { title, description, cost } = req.body as ProductInterface;
-    const product = new Product(title, description, cost);
+    const { title, description, cost, imageUrl } = req.body as ProductInterface;
+    const product = new Product(title, description, cost, imageUrl);
 
     const titleError = product.validateTitle();
     const descriptionError = product.validateDescription();
     const costError = product.validateCost();
+    const imageError = product.validateImageUrl();
 
     if(titleError || descriptionError || costError) {
         return res.render('admin/add-product', {
@@ -28,7 +30,8 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
             product: product,
             descriptionError,
             titleError,
-            costError
+            costError,
+            imageError
         });
     }
 

@@ -30,10 +30,11 @@ const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const path_2 = __importDefault(require("../helper/path"));
 class Product {
-    constructor(title, description, cost, id = 0) {
+    constructor(title, description, cost, imageUrl, id = 0) {
         this.title = title;
         this.description = description;
         this.cost = cost;
+        this.imageUrl = imageUrl;
         if (id < 1) {
             this.id = Date.now();
         }
@@ -63,6 +64,15 @@ class Product {
             return "Please enter a valid cost.";
         }
     }
+    validateImageUrl() {
+        if (!this.imageUrl || this.imageUrl.length === 0) {
+            return;
+        }
+        const regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
+        if (!regex.test(this.imageUrl)) {
+            return "Please enter a valid URL";
+        }
+    }
     static getFilePath() {
         return path_1.default.join(path_2.default, 'data', 'products.json');
     }
@@ -82,6 +92,7 @@ class Product {
                 title: this.title,
                 description: this.description,
                 cost: this.cost,
+                imageUrl: this.imageUrl,
                 id: this.id
             });
             fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
@@ -93,7 +104,7 @@ class Product {
         Product.getProductJsonArrayFromFile((array) => {
             const prodArray = [];
             for (let prodJson of array) {
-                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost, prodJson.id);
+                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost, prodJson.imageUrl, prodJson.id);
                 prodArray.push(newProduct);
             }
             callback(prodArray);

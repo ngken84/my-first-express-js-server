@@ -6,6 +6,7 @@ export interface ProductInterface {
     title: string,
     description: string,
     cost: string,
+    imageUrl: string,
     id: number
 }
 
@@ -17,6 +18,7 @@ export default class Product {
         public title: string, 
         public description: string,
         public cost: string,
+        public imageUrl: string,
         id = 0
     ) {
         if(id < 1) {
@@ -51,6 +53,16 @@ export default class Product {
         }
     }
 
+    validateImageUrl() {
+        if(!this.imageUrl || this.imageUrl.length === 0) {
+            return;
+        }
+        const regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
+        if(!regex.test(this.imageUrl)) {
+            return "Please enter a valid URL";
+        }
+    }
+
     private static getFilePath() {
         return path.join(rootDir, 'data', 'products.json');
     }
@@ -72,6 +84,7 @@ export default class Product {
                 title: this.title, 
                 description: this.description,
                 cost: this.cost,
+                imageUrl: this.imageUrl,
                 id: this.id
             });
             fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
@@ -84,7 +97,11 @@ export default class Product {
         Product.getProductJsonArrayFromFile((array) => {
             const prodArray: Product[] = [];
             for(let prodJson of array) {
-                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost, prodJson.id);
+                let newProduct = new Product(prodJson.title, 
+                    prodJson.description, 
+                    prodJson.cost, 
+                    prodJson.imageUrl, 
+                    prodJson.id);
                 prodArray.push(newProduct);
             }
             callback(prodArray);

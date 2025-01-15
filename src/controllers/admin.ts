@@ -52,15 +52,25 @@ const getAdminProductList = (req: Request, res: Response, next: () => void) => {
 }
 
 const getEditProduct = (req: Request, res: Response, next: () => void) => {
-    res.render('admin/edit-product', {
-        pageTitle: "ADMIN: Edit Product",
-        path: '/admin/add-product',
-        product: new Product('', '', '', ''),
-        descriptionError: undefined,
-        titleError: undefined,
-        imageError: undefined,
-        costError: undefined
-    });
+    const id = req.query.id;
+    const numId = parseInt(id);
+    if(numId && numId > 0) {
+        Product.fetchById(numId, (product) => {
+            if(!product) {
+                return res.redirect('/admin/product-list');
+            }
+            res.render('admin/edit-product', {
+                pageTitle: "ADMIN: Edit Product",
+                path: '/admin/add-product',
+                product: product,
+                descriptionError: undefined,
+                titleError: undefined,
+                imageError: undefined,
+                costError: undefined
+            });
+        });
+    }
+    
 }
 
 const AdminController = {

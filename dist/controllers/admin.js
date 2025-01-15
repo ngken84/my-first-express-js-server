@@ -47,15 +47,24 @@ const getAdminProductList = (req, res, next) => {
     });
 };
 const getEditProduct = (req, res, next) => {
-    res.render('admin/edit-product', {
-        pageTitle: "ADMIN: Edit Product",
-        path: '/admin/add-product',
-        product: new product_1.default('', '', '', ''),
-        descriptionError: undefined,
-        titleError: undefined,
-        imageError: undefined,
-        costError: undefined
-    });
+    const id = req.query.id;
+    const numId = parseInt(id);
+    if (numId && numId > 0) {
+        product_1.default.fetchById(numId, (product) => {
+            if (!product) {
+                return res.redirect('/admin/product-list');
+            }
+            res.render('admin/edit-product', {
+                pageTitle: "ADMIN: Edit Product",
+                path: '/admin/add-product',
+                product: product,
+                descriptionError: undefined,
+                titleError: undefined,
+                imageError: undefined,
+                costError: undefined
+            });
+        });
+    }
 };
 const AdminController = {
     getAddProduct,

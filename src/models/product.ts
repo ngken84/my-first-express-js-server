@@ -108,8 +108,9 @@ export default class Product {
         });
     }
 
-    fetchById(id: number, callback: (product : Product | undefined) => void) {
+    static fetchById(id: number, callback: (product : Product | undefined) => void) {
         Product.getProductJsonArrayFromFile((array) => {
+            console.log(id)
             const p = array.filter(o => o.id === id);
             if(p.length > 0) {
                 callback(new Product(

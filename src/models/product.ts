@@ -107,4 +107,21 @@ export default class Product {
             callback(prodArray);
         });
     }
+
+    fetchById(id: number, callback: (product : Product | undefined) => void) {
+        Product.getProductJsonArrayFromFile((array) => {
+            const p = array.filter(o => o.id === id);
+            if(p.length > 0) {
+                callback(new Product(
+                    p[0].title,
+                    p[0].description,
+                    p[0].cost,
+                    p[0].imageUrl,
+                    p[0].id
+                ));
+            } else {
+                callback(undefined);
+            }
+        })
+    }
 }

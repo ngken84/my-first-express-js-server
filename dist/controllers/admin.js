@@ -38,14 +38,29 @@ const postAddProduct = (req, res, next) => {
     });
 };
 const getAdminProductList = (req, res, next) => {
-    res.render('admin/product-list', {
-        pageTitle: "ADMIN: Product List",
-        path: '/admin/product-list'
+    product_1.default.fetchAll(products => {
+        res.render('admin/product-list', {
+            pageTitle: "ADMIN: Product List",
+            path: '/admin/product-list',
+            products
+        });
+    });
+};
+const getEditProduct = (req, res, next) => {
+    res.render('admin/edit-product', {
+        pageTitle: "ADMIN: Edit Product",
+        path: '/admin/add-product',
+        product: new product_1.default('', '', '', ''),
+        descriptionError: undefined,
+        titleError: undefined,
+        imageError: undefined,
+        costError: undefined
     });
 };
 const AdminController = {
     getAddProduct,
     postAddProduct,
-    getAdminProductList
+    getAdminProductList,
+    getEditProduct
 };
 exports.default = AdminController;

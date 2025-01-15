@@ -42,16 +42,32 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
 }
 
 const getAdminProductList = (req: Request, res: Response, next: () => void) => {
-    res.render('admin/product-list', {
-        pageTitle: "ADMIN: Product List",
-        path: '/admin/product-list'
+    Product.fetchAll(products => {
+        res.render('admin/product-list', {
+            pageTitle: "ADMIN: Product List",
+            path: '/admin/product-list',
+            products 
+        });
+    })
+}
+
+const getEditProduct = (req: Request, res: Response, next: () => void) => {
+    res.render('admin/edit-product', {
+        pageTitle: "ADMIN: Edit Product",
+        path: '/admin/add-product',
+        product: new Product('', '', '', ''),
+        descriptionError: undefined,
+        titleError: undefined,
+        imageError: undefined,
+        costError: undefined
     });
 }
 
 const AdminController = {
     getAddProduct,
     postAddProduct,
-    getAdminProductList
+    getAdminProductList,
+    getEditProduct
 }
 
 export default AdminController;

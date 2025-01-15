@@ -5,6 +5,46 @@
         <%- include('../includes/nav.ejs') %>
         <main>
             <h1>Edit Product</h1>
+            <form class="product-form" action="/admin/add-product" method="POST">
+                <div class="form-control <%= titleError ? 'has-error' : '' %>">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" value="<%= product.title %>" name="title">
+                    <% if(titleError) { %>
+                        <div class="form-control-error">
+                            <%= titleError %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="form-control <%= descriptionError ? 'has-error' : '' %>">
+                    <label for="description">Description</label>
+                    <textarea id="description" type="text" name="description"><%= product.description %></textarea>
+                    <% if(descriptionError) { %>
+                        <div class="form-control-error">
+                            <%= descriptionError %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="form-control <%= imageError ? 'has-error' : '' %>">
+                    <label for="imageUrl">Image URL</label>
+                    <input id="imageUrl" type="text" name="imageUrl" value="<%= product.imageUrl %>">
+                    <% if(imageError) { %>
+                        <div class="form-control-error">
+                            <%= imageError %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="form-control <%= costError ? 'has-error' : '' %>">
+                    <label for="cost">Cost</label>
+                    <input id="cost" type="text" value="<%= product.cost %>" name="cost">
+                    <% if(costError) { %>
+                        <div class="form-control-error">
+                            <%= costError %>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <button type="submit">Add Product</button>
+            </form>
         </main>
 </body>
 </html>

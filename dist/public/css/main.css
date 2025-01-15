@@ -60,6 +60,7 @@ main {
 
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  max-width: 32vw;
 }
 
 .card__header,
@@ -99,6 +100,8 @@ main {
   background: white;
   border-radius: 3px;
   cursor: pointer;
+  text-decoration: none;
+  padding: .2rem;
 }
 
 .btn:hover,

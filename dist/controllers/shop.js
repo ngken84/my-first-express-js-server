@@ -16,6 +16,12 @@ const getCart = (req, res, next) => {
         path: '/cart'
     });
 };
+const getOrders = (req, res, next) => {
+    res.render('shop/orders', {
+        pageTitle: "My Orders",
+        path: '/orders'
+    });
+};
 const getProductList = (req, res, next) => {
     product_1.default.fetchAll((products) => {
         res.render('shop/product-list', {
@@ -28,6 +34,7 @@ const getProductList = (req, res, next) => {
 const ShopController = {
     getProductList,
     getShopIndex,
+    getOrders,
     getCart
 };
 exports.default = ShopController;

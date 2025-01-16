@@ -16,6 +16,13 @@ const getCart = (req: Request, res: Response, next: () => void) => {
     });
 }
 
+const getOrders = (req: Request, res: Response, next: () => void) => {
+    res.render('shop/orders', {
+        pageTitle: "My Orders",
+        path: '/orders'
+    });
+}
+
 const getProductList = (req: Request, res: Response, next: () => void) => {
     Product.fetchAll((products) => {
         res.render('shop/product-list', {
@@ -30,6 +37,7 @@ const getProductList = (req: Request, res: Response, next: () => void) => {
 const ShopController = {
     getProductList,
     getShopIndex,
+    getOrders,
     getCart
 }
 

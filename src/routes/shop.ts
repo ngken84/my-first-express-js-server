@@ -10,6 +10,8 @@ router.get('/products', ShopController.getProductList);
 
 router.get('/cart', ShopController.getCart);
 
+router.get('/orders', ShopController.getOrders);
+
 router.get('/checkout', ShopController.getCart);
 
 export default router;

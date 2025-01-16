@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../includes/head.ejs') %>
+    <head>
+        <%- include('../includes/standard-head.ejs') %>
+        <script>
+            function deleteProduct(id) {
+                console.log(JSON.stringify({id}))
+                fetch('/admin/delete-product', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: id})
+                }).then((res) => {
+                    console.log(res);
+                });
+            }
+        </script>
+    </head>
     <body>
         <%- include('../includes/nav.ejs') %>
         <main>
@@ -23,7 +39,7 @@
                             </div>
                             <div class="card__actions">
                                 <a href="/admin/edit-product?id=<%= product.id %>" class="btn">Edit</a>
-                                <button class="btn">Delete</button>
+                                <button class="btn" onClick="deleteProduct(<%= product.id %>)">Delete</button>
                             </div>
                         </article>
                     <% } %>

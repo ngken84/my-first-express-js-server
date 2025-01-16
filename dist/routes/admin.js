@@ -10,4 +10,5 @@ router.get('/add-product', admin_1.default.getAddProduct);
 router.post('/add-product', admin_1.default.postAddProduct);
 router.get('/product-list', admin_1.default.getAdminProductList);
 router.get('/edit-product', admin_1.default.getEditProduct);
+router.post('/delete-product', admin_1.default.deleteProduct);
 exports.default = router;

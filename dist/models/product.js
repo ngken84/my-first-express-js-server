@@ -110,6 +110,20 @@ class Product {
             callback(prodArray);
         });
     }
+    static deleteById(id, callback) {
+        Product.getProductJsonArrayFromFile((array) => {
+            const p = array.filter(o => o.id === id);
+            if (p) {
+                const newArray = array.filter(o => o.id !== id);
+                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
+                    callback(new Product(p[0].title, p[0].description, p[0].cost, p[0].imageUrl, p[0].id));
+                });
+            }
+            else {
+                callback(undefined);
+            }
+        });
+    }
     static fetchById(id, callback) {
         Product.getProductJsonArrayFromFile((array) => {
             console.log(id);

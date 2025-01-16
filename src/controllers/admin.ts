@@ -73,11 +73,23 @@ const getEditProduct = (req: Request, res: Response, next: () => void) => {
     
 }
 
+const deleteProduct= (req: Request, res: Response, next: () => void) => {
+    const id = req.body.id as number;
+    Product.deleteById(id, (product) => {
+        if(product) {
+            return res.send(product);
+        }
+        res.send("NOT FOUND");
+
+    })
+}
+
 const AdminController = {
     getAddProduct,
     postAddProduct,
     getAdminProductList,
-    getEditProduct
+    getEditProduct,
+    deleteProduct
 }
 
 export default AdminController;

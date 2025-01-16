@@ -97,7 +97,8 @@ export default class Product {
         Product.getProductJsonArrayFromFile((array) => {
             const prodArray: Product[] = [];
             for(let prodJson of array) {
-                let newProduct = new Product(prodJson.title, 
+                let newProduct = new Product(
+                    prodJson.title, 
                     prodJson.description, 
                     prodJson.cost, 
                     prodJson.imageUrl, 
@@ -106,6 +107,20 @@ export default class Product {
             }
             callback(prodArray);
         });
+    }
+
+    static deleteById(id: number, callback: (deletedProduct: Product | undefined) => void) {
+        Product.getProductJsonArrayFromFile((array) => {
+            const p = array.filter(o => o.id === id) as ProductInterface[];
+            if(p) {
+                const newArray = array.filter(o => o.id !== id);
+                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
+                    callback(new Product(p[0].title, p[0].description, p[0].cost, p[0].imageUrl, p[0].id));
+                })
+            } else {
+                callback(undefined);
+            }
+        })
     }
 
     static fetchById(id: number, callback: (product : Product | undefined) => void) {

@@ -66,10 +66,20 @@ const getEditProduct = (req, res, next) => {
         });
     }
 };
+const deleteProduct = (req, res, next) => {
+    const id = req.body.id;
+    product_1.default.deleteById(id, (product) => {
+        if (product) {
+            return res.send(product);
+        }
+        res.send("NOT FOUND");
+    });
+};
 const AdminController = {
     getAddProduct,
     postAddProduct,
     getAdminProductList,
-    getEditProduct
+    getEditProduct,
+    deleteProduct
 };
 exports.default = AdminController;

@@ -331,10 +331,11 @@ router.get('/products/delete', routerHandler);
 router.get('/products/:productId', otherHandler); // Will never get reached because the above fires first!
 ```
 To retrieve the dynamic path segment
+```
 const getProduct = (req: Request, res: Response, next: () => void) {
   const productId = res.params.productId;
-  
 }
+```
 
 ## Using Query Params
 

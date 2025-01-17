@@ -67,12 +67,10 @@ const getEditProduct = (req, res, next) => {
     }
 };
 const deleteProduct = (req, res, next) => {
-    const id = req.body.id;
+    const { productId } = req.params;
+    const id = parseInt(productId);
     product_1.default.deleteById(id, (product) => {
-        if (product) {
-            return res.send(product);
-        }
-        res.send("NOT FOUND");
+        res.redirect('/admin/product-list');
     });
 };
 const AdminController = {

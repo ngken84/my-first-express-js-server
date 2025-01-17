@@ -74,13 +74,10 @@ const getEditProduct = (req: Request, res: Response, next: () => void) => {
 }
 
 const deleteProduct= (req: Request, res: Response, next: () => void) => {
-    const id = req.body.id as number;
+    const { productId } = req.params as {productId : string}
+    const id = parseInt(productId);
     Product.deleteById(id, (product) => {
-        if(product) {
-            return res.send(product);
-        }
-        res.send("NOT FOUND");
-
+        res.redirect('/admin/product-list');
     })
 }
 

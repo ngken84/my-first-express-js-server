@@ -2,20 +2,6 @@
 <html lang="en">
     <head>
         <%- include('../includes/standard-head.ejs') %>
-        <script>
-            function deleteProduct(id) {
-                console.log(JSON.stringify({id}))
-                fetch('/admin/delete-product', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({id: id})
-                }).then((res) => {
-                    location.reload();
-                });
-            }
-        </script>
     </head>
     <body>
         <%- include('../includes/nav.ejs') %>
@@ -39,7 +25,10 @@
                             </div>
                             <div class="card__actions">
                                 <a href="/admin/edit-product?id=<%= product.id %>" class="btn">Edit</a>
-                                <button class="btn" onClick="deleteProduct(<%= product.id %>)">Delete</button>
+                                <form action="/admin/delete-product/<%= product.id %>" method="post">
+                                    <button class="btn" type="submit">Delete</button>
+                                </form>
+                               
                             </div>
                         </article>
                     <% } %>

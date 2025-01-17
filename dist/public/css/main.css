@@ -88,6 +88,10 @@ main {
     text-align: center;
 }
 
+.card__actions > form {
+  display: inline-block;
+}
+
 .card__actions button,
 .card__actions a {
     margin: 0 0.25rem;

@@ -33,12 +33,29 @@ const getProductList = (req: Request, res: Response, next: () => void) => {
     })
 }
 
+const getProduct = (req: Request, res: Response, next: () => void) => {
+    const {productId} = req.params as { productId: string }
+    const id = parseInt(productId);
+    Product.fetchById(id, (product) => {
+        if(product) {
+            return res.render('shop/product', {
+                product,
+                pageTitle: product.title,
+                path: '/products'
+            })
+        } 
+        res.redirect('/products');
+    })
+
+}
+
 
 const ShopController = {
     getProductList,
     getShopIndex,
     getOrders,
-    getCart
+    getCart,
+    getProduct
 }
 
 export default ShopController;

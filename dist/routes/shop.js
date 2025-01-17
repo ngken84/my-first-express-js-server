@@ -8,6 +8,7 @@ const shop_1 = __importDefault(require("../controllers/shop"));
 const router = express_1.default.Router();
 router.get('/', shop_1.default.getShopIndex);
 router.get('/products', shop_1.default.getProductList);
+router.get('/product/:productId', shop_1.default.getProduct);
 router.get('/cart', shop_1.default.getCart);
 router.get('/orders', shop_1.default.getOrders);
 router.get('/checkout', shop_1.default.getCart);

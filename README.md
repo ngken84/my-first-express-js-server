@@ -318,5 +318,23 @@ What users sees. Rendering the correct content in the HTML. Decoupled from appli
 - Controllers
 Connection point between model and views. Works with models to save and fetching data for the views. 
 
-## Implementing MVC Pattern
+# Dynamic Routes & Advanced Models
+
+## Passing Route Params
+
+```
+router.get('/products/:productId', routerHandler);
+```
+Remember that ordering matters!
+```
+router.get('/products/delete', routerHandler);
+router.get('/products/:productId', otherHandler); // Will never get reached because the above fires first!
+```
+To retrieve the dynamic path segment
+const getProduct = (req: Request, res: Response, next: () => void) {
+  const productId = res.params.productId;
+  
+}
+
+## Using Query Params
 

@@ -31,10 +31,25 @@ const getProductList = (req, res, next) => {
         });
     });
 };
+const getProduct = (req, res, next) => {
+    const { productId } = req.params;
+    const id = parseInt(productId);
+    product_1.default.fetchById(id, (product) => {
+        if (product) {
+            return res.render('shop/product', {
+                product,
+                pageTitle: product.title,
+                path: '/products'
+            });
+        }
+        res.redirect('/products');
+    });
+};
 const ShopController = {
     getProductList,
     getShopIndex,
     getOrders,
-    getCart
+    getCart,
+    getProduct
 };
 exports.default = ShopController;

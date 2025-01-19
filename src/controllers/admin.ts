@@ -36,7 +36,7 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
     }
 
     product.save(false, (err) => {
-        res.redirect('../');
+        res.redirect('/admin/product-list');
     });
     
 }

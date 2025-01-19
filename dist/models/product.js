@@ -102,8 +102,8 @@ class Product {
                 });
             }
             else {
-                const search = array.filter((p) => p.id === this.id);
-                if (search.length > 0) {
+                const search = array.find((p) => p.id === this.id);
+                if (search) {
                     return callback(null);
                 }
                 array.push({
@@ -146,9 +146,9 @@ class Product {
     static fetchById(id, callback) {
         Product.getProductJsonArrayFromFile((array) => {
             console.log(id);
-            const p = array.filter(o => o.id === id);
-            if (p.length > 0) {
-                callback(new Product(p[0].title, p[0].description, p[0].cost, p[0].imageUrl, p[0].id));
+            const p = array.find(o => o.id === id);
+            if (p) {
+                callback(new Product(p.title, p.description, p.cost, p.imageUrl, p.id));
             }
             else {
                 callback(undefined);

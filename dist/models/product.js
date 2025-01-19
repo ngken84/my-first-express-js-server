@@ -86,18 +86,37 @@ class Product {
             callback(products);
         });
     }
-    save(callback) {
+    save(allowOverwrite, callback) {
         Product.getProductJsonArrayFromFile((array) => {
-            array.push({
-                title: this.title,
-                description: this.description,
-                cost: this.cost,
-                imageUrl: this.imageUrl,
-                id: this.id
-            });
-            fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
-                callback(err);
-            });
+            if (allowOverwrite) {
+                const newArray = array.filter((p) => p.id !== this.id);
+                newArray.push({
+                    title: this.title,
+                    description: this.description,
+                    cost: this.cost,
+                    imageUrl: this.imageUrl,
+                    id: this.id
+                });
+                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
+                    callback(err);
+                });
+            }
+            else {
+                const search = array.filter((p) => p.id === this.id);
+                if (search.length > 0) {
+                    return callback(null);
+                }
+                array.push({
+                    title: this.title,
+                    description: this.description,
+                    cost: this.cost,
+                    imageUrl: this.imageUrl,
+                    id: this.id
+                });
+                fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
+                    callback(err);
+                });
+            }
         });
     }
     static fetchAll(callback) {

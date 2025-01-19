@@ -23,7 +23,7 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
     const costError = product.validateCost();
     const imageError = product.validateImageUrl();
 
-    if(titleError || descriptionError || costError) {
+    if(titleError || descriptionError || costError || imageError) {
         return res.render('admin/add-product', {
             pageTitle: "ADMIN: Add Product",
             path: '/admin/add-product',
@@ -35,7 +35,7 @@ const postAddProduct = (req: Request, res: Response, next: () => void) => {
         });
     }
 
-    product.save((err) => {
+    product.save(false, (err) => {
         res.redirect('../');
     });
     
@@ -52,7 +52,7 @@ const getAdminProductList = (req: Request, res: Response, next: () => void) => {
 }
 
 const getEditProduct = (req: Request, res: Response, next: () => void) => {
-    const id = req.query.id;
+    const id = req.params.productId;
     const numId = parseInt(id);
     if(numId && numId > 0) {
         Product.fetchById(numId, (product) => {
@@ -70,7 +70,41 @@ const getEditProduct = (req: Request, res: Response, next: () => void) => {
             });
         });
     }
+}
+
+const postEditProduct = (req: Request, res: Response, next: () => void) => {
+    const {id, title, description, imageUrl, cost} = req.body;
+    const numid = parseInt(id);
+    const product = new Product(title, description, cost, imageUrl, numid);
     
+    const titleError = product.validateTitle();
+    const descriptionError = product.validateDescription();
+    const costError = product.validateCost();
+    const imageError = product.validateImageUrl();
+
+    if(titleError || descriptionError || costError || imageError) {
+        return res.render('admin/edit-product', {
+            pageTitle: "ADMIN: Edit Product",
+            path: '/admin/edit-product',
+            product: product,
+            descriptionError,
+            titleError,
+            costError,
+            imageError
+        });
+    }
+
+    Product.fetchById(numid, (pr) => {
+        if(pr) {
+            product.save(true, (err) => {
+                res.redirect("/admin/product-list");
+            });
+        }
+        res.redirect("/admin/product-list");
+    });
+
+
+
 }
 
 const deleteProduct= (req: Request, res: Response, next: () => void) => {
@@ -86,6 +120,7 @@ const AdminController = {
     postAddProduct,
     getAdminProductList,
     getEditProduct,
+    postEditProduct,
     deleteProduct
 }
 

@@ -9,6 +9,7 @@ const router = express_1.default.Router();
 router.get('/add-product', admin_1.default.getAddProduct);
 router.post('/add-product', admin_1.default.postAddProduct);
 router.get('/product-list', admin_1.default.getAdminProductList);
-router.get('/edit-product', admin_1.default.getEditProduct);
+router.get('/edit-product/:productId', admin_1.default.getEditProduct);
+router.post('/edit-product/', admin_1.default.postEditProduct);
 router.post('/delete-product/:productId', admin_1.default.deleteProduct);
 exports.default = router;

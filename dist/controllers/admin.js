@@ -22,7 +22,7 @@ const postAddProduct = (req, res, next) => {
     const descriptionError = product.validateDescription();
     const costError = product.validateCost();
     const imageError = product.validateImageUrl();
-    if (titleError || descriptionError || costError) {
+    if (titleError || descriptionError || costError || imageError) {
         return res.render('admin/add-product', {
             pageTitle: "ADMIN: Add Product",
             path: '/admin/add-product',
@@ -33,7 +33,7 @@ const postAddProduct = (req, res, next) => {
             imageError
         });
     }
-    product.save((err) => {
+    product.save(false, (err) => {
         res.redirect('../');
     });
 };
@@ -47,7 +47,7 @@ const getAdminProductList = (req, res, next) => {
     });
 };
 const getEditProduct = (req, res, next) => {
-    const id = req.query.id;
+    const id = req.params.productId;
     const numId = parseInt(id);
     if (numId && numId > 0) {
         product_1.default.fetchById(numId, (product) => {
@@ -66,6 +66,34 @@ const getEditProduct = (req, res, next) => {
         });
     }
 };
+const postEditProduct = (req, res, next) => {
+    const { id, title, description, imageUrl, cost } = req.body;
+    const numid = parseInt(id);
+    const product = new product_1.default(title, description, cost, imageUrl, numid);
+    const titleError = product.validateTitle();
+    const descriptionError = product.validateDescription();
+    const costError = product.validateCost();
+    const imageError = product.validateImageUrl();
+    if (titleError || descriptionError || costError || imageError) {
+        return res.render('admin/edit-product', {
+            pageTitle: "ADMIN: Edit Product",
+            path: '/admin/edit-product',
+            product: product,
+            descriptionError,
+            titleError,
+            costError,
+            imageError
+        });
+    }
+    product_1.default.fetchById(numid, (pr) => {
+        if (pr) {
+            product.save(true, (err) => {
+                res.redirect("/admin/product-list");
+            });
+        }
+        res.redirect("/admin/product-list");
+    });
+};
 const deleteProduct = (req, res, next) => {
     const { productId } = req.params;
     const id = parseInt(productId);
@@ -78,6 +106,7 @@ const AdminController = {
     postAddProduct,
     getAdminProductList,
     getEditProduct,
+    postEditProduct,
     deleteProduct
 };
 exports.default = AdminController;

@@ -178,6 +178,10 @@ For similar usage as templates you can create ejs files
 ```
 Note that <%- does not escape html so be wary that you don't allow cross scripting attacks via it!
 
+You can also pass local or data into your include using variables:
+```
+<%- include('includes/cart.ejs', {product: product}) %>
+```
 
 ## Pug (Jade)
 Uses minimized HTML

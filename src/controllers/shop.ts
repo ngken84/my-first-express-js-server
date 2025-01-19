@@ -16,6 +16,16 @@ const getCart = (req: Request, res: Response, next: () => void) => {
     });
 }
 
+const postCart = (req: Request, res: Response, next: () => void) => {
+    const { id } = req.body;
+    console.log("cart", id);
+
+    res.render('shop/cart', {
+        pageTitle: "My Cart",
+        path: '/cart'
+    });
+}
+
 const getOrders = (req: Request, res: Response, next: () => void) => {
     res.render('shop/orders', {
         pageTitle: "My Orders",
@@ -55,6 +65,7 @@ const ShopController = {
     getShopIndex,
     getOrders,
     getCart,
+    postCart,
     getProduct
 }
 

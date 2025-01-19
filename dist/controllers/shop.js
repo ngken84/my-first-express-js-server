@@ -16,6 +16,14 @@ const getCart = (req, res, next) => {
         path: '/cart'
     });
 };
+const postCart = (req, res, next) => {
+    const { id } = req.body;
+    console.log("cart", id);
+    res.render('shop/cart', {
+        pageTitle: "My Cart",
+        path: '/cart'
+    });
+};
 const getOrders = (req, res, next) => {
     res.render('shop/orders', {
         pageTitle: "My Orders",
@@ -50,6 +58,7 @@ const ShopController = {
     getShopIndex,
     getOrders,
     getCart,
+    postCart,
     getProduct
 };
 exports.default = ShopController;

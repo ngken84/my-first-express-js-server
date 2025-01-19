@@ -21,10 +21,7 @@
                 <p><%= product.description %></p>
             </div>
             <div>
-                <form action="/cart" method="post">
-                    <input type="hidden" name="id" value="<%= product.id %>">
-                    <button type="submit" class="btn">Add to Cart</button>
-                </form>
+                <%- include('../includes/product-add-cart-btn.ejs', {product}) %>
             </div>
 
         </main>

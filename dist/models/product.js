@@ -145,7 +145,6 @@ class Product {
     }
     static fetchById(id, callback) {
         Product.getProductJsonArrayFromFile((array) => {
-            console.log(id);
             const p = array.find(o => o.id === id);
             if (p) {
                 callback(new Product(p.title, p.description, p.cost, p.imageUrl, p.id));

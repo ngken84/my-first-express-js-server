@@ -39,6 +39,12 @@ export default class Cart {
         }
     }
 
+    // public static removeProduct(product: Product, callback: (err: NodeJS.ErrnoException) => void) {
+    //     if(product) {
+    //         Cart.getCartContents()
+    //     }
+    // }
+
     public static getCartContents(callback : (contents : CartContents) => void) {
         const file = Cart.getFilePath();
         fs.readFile(file, 'utf8', (err, fileContent) => {

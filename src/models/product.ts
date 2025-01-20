@@ -161,4 +161,16 @@ export default class Product {
             }
         })
     }
+
+    static fetchMapByIds(ids: number[], callback: (productMap : Map<number, ProductInterface>) => void) {
+        Product.getProductJsonArrayFromFile((products) => {
+            const list = products.filter((p) => ids.includes(p.id));
+            const map = new Map<number, ProductInterface>();
+            console.log(list);
+            for(let i = 0; i < list.length; ++i) {
+                map.set(list[i].id, list[i]);
+            }
+            callback(map);
+        });
+    }
 }

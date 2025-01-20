@@ -11,15 +11,40 @@ const getShopIndex = (req: Request, res: Response, next: () => void) => {
 }
 
 const getCart = (req: Request, res: Response, next: () => void) => {
-    res.render('shop/cart', {
-        pageTitle: "My Cart",
-        path: '/cart'
-    });
+
+    Cart.getCartContents((cart) => {
+        let ids : number[]= [];
+        cart.products.forEach(element => {
+            ids.push(element.productId);
+        });
+        Product.fetchMapByIds(ids, (productMap) => {
+            let productList : {
+                product: Product,
+                count: number
+            }[] = [];
+            cart.products.forEach((element) => {
+                const item = productMap.get(element.productId);
+                if(item) {
+                    productList.push({
+                        product: new Product(item.title, item.description, item.cost, item.imageUrl, item.id),
+                        count: element.count
+                    });
+                }                
+            });
+
+            res.render('shop/cart', {
+                pageTitle: "My Cart",
+                path: '/cart',
+                cart: productList,
+                totalAmount: cart.totalCost
+            });
+        })
+    })
+    
 }
 
 const postCart = (req: Request, res: Response, next: () => void) => {
     const { id } = req.body;
-    console.log("cart", id);
     const numId = parseInt(id);
 
     Product.fetchById(numId, (product) => {

@@ -51,6 +51,11 @@ class Cart {
             });
         }
     }
+    // public static removeProduct(product: Product, callback: (err: NodeJS.ErrnoException) => void) {
+    //     if(product) {
+    //         Cart.getCartContents()
+    //     }
+    // }
     static getCartContents(callback) {
         const file = Cart.getFilePath();
         fs.readFile(file, 'utf8', (err, fileContent) => {

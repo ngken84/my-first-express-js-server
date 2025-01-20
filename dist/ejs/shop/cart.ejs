@@ -2,11 +2,38 @@
 <html lang="en">
     <head>
         <%- include('../includes/standard-head.ejs') %>
+        <link rel="stylesheet" href="/css/cart.css">
     </head>
     <body>
         <%- include('../includes/nav.ejs') %>
         <main>
             <h1>My Cart</h1>
+            <% if(cart && cart.length > 0) { %>
+                <ul class="cart-list">
+                    <% for(let cartItem of cart) { %>
+                        <li class="cart-list-item">
+                            <div class="cart-item__image">
+                                <img src="<%= cartItem.product.imageUrl %>" alt="Cart Item" height="150px">
+                            </div>
+                            <div class="cart-item__body">
+                                <h3 class="cart-item__title"><%= cartItem.product.title %></h3>
+                                <p>
+                                    <%= cartItem.product.description %>
+                                </p>
+                            </div>
+                            <div class="cart-item__end">
+                                <h3 class="cart-item__in-cart">In Cart: <%= cartItem.count %></h3>
+                                <%- include('../includes/product-remove-cart-btn.ejs', {product: cartItem.product}) %>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } else { %>
+                <div>
+                    No Items Added...
+                </div>
+            <% } %>
+            <p>Cart Amount : <%= totalAmount %></p>
         </main>
 </body>
 </html>

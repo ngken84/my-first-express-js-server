@@ -157,5 +157,16 @@ class Product {
             }
         });
     }
+    static fetchMapByIds(ids, callback) {
+        Product.getProductJsonArrayFromFile((products) => {
+            const list = products.filter((p) => ids.includes(p.id));
+            const map = new Map();
+            console.log(list);
+            for (let i = 0; i < list.length; ++i) {
+                map.set(list[i].id, list[i]);
+            }
+            callback(map);
+        });
+    }
 }
 exports.default = Product;

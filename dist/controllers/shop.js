@@ -12,14 +12,33 @@ const getShopIndex = (req, res, next) => {
     });
 };
 const getCart = (req, res, next) => {
-    res.render('shop/cart', {
-        pageTitle: "My Cart",
-        path: '/cart'
+    cart_1.default.getCartContents((cart) => {
+        let ids = [];
+        cart.products.forEach(element => {
+            ids.push(element.productId);
+        });
+        product_1.default.fetchMapByIds(ids, (productMap) => {
+            let productList = [];
+            cart.products.forEach((element) => {
+                const item = productMap.get(element.productId);
+                if (item) {
+                    productList.push({
+                        product: new product_1.default(item.title, item.description, item.cost, item.imageUrl, item.id),
+                        count: element.count
+                    });
+                }
+            });
+            res.render('shop/cart', {
+                pageTitle: "My Cart",
+                path: '/cart',
+                cart: productList,
+                totalAmount: cart.totalCost
+            });
+        });
     });
 };
 const postCart = (req, res, next) => {
     const { id } = req.body;
-    console.log("cart", id);
     const numId = parseInt(id);
     product_1.default.fetchById(numId, (product) => {
         if (product) {

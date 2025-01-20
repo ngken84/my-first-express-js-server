@@ -73,6 +73,9 @@ class Product {
             return "Please enter a valid URL";
         }
     }
+    get costFloat() {
+        return parseFloat(this.cost.substring(1));
+    }
     static getFilePath() {
         return path_1.default.join(path_2.default, 'data', 'products.json');
     }

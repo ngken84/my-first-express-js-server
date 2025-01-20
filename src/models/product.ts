@@ -63,6 +63,10 @@ export default class Product {
         }
     }
 
+    get costFloat() {
+        return parseFloat(this.cost.substring(1));
+    }
+
     private static getFilePath() {
         return path.join(rootDir, 'data', 'products.json');
     }

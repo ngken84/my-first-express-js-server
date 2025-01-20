@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import Product from '../models/product';
+import Cart from '../models/cart';
 
 const getShopIndex = (req: Request, res: Response, next: () => void) => {
     res.render('shop/index', {
@@ -19,6 +20,17 @@ const getCart = (req: Request, res: Response, next: () => void) => {
 const postCart = (req: Request, res: Response, next: () => void) => {
     const { id } = req.body;
     console.log("cart", id);
+    const numId = parseInt(id);
+
+    Product.fetchById(numId, (product) => {
+        if(product) {
+            Cart.addProduct(product, (err) => {
+                res.redirect('/cart');
+            });
+        } else {
+            res.redirect('/cart');
+        }
+    })
 
     res.render('shop/cart', {
         pageTitle: "My Cart",

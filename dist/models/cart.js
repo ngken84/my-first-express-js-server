@@ -30,7 +30,26 @@ const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const path_2 = __importDefault(require("../helper/path"));
 class Cart {
-    static addProduct(id) {
+    static addProduct(product, callback) {
+        if (product) {
+            Cart.getCartContents((cart) => {
+                let cartItem = cart.products.find((p) => p.productId === product.id);
+                if (cartItem) {
+                    cartItem.count++;
+                }
+                else {
+                    cart.products.push({
+                        productId: product.id,
+                        count: 1
+                    });
+                }
+                cart.totalCost += product.costFloat;
+                console.log(cart);
+                fs.writeFile(Cart.getFilePath(), JSON.stringify(cart), 'utf8', (err) => {
+                    callback(err);
+                });
+            });
+        }
     }
     static getCartContents(callback) {
         const file = Cart.getFilePath();

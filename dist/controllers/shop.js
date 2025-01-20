@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../models/product"));
+const cart_1 = __importDefault(require("../models/cart"));
 const getShopIndex = (req, res, next) => {
     res.render('shop/index', {
         pageTitle: "Shop",
@@ -19,6 +20,17 @@ const getCart = (req, res, next) => {
 const postCart = (req, res, next) => {
     const { id } = req.body;
     console.log("cart", id);
+    const numId = parseInt(id);
+    product_1.default.fetchById(numId, (product) => {
+        if (product) {
+            cart_1.default.addProduct(product, (err) => {
+                res.redirect('/cart');
+            });
+        }
+        else {
+            res.redirect('/cart');
+        }
+    });
     res.render('shop/cart', {
         pageTitle: "My Cart",
         path: '/cart'

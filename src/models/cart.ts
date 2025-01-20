@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import path from 'path';
 import rootDir from '../helper/path';
 
+import Product from './product';
+
 
 export interface ProductInCart {
     productId: number,
@@ -15,8 +17,26 @@ export interface CartContents {
 
 export default class Cart {
 
-    public static addProduct(id: number) {
-        
+    public static addProduct(product: Product, callback: (err: NodeJS.ErrnoException | null) => void) {
+       
+        if(product) {
+            Cart.getCartContents((cart) => {
+                let cartItem = cart.products.find((p) => p.productId === product.id);
+                if(cartItem) {
+                    cartItem.count++;
+                } else {
+                    cart.products.push({
+                        productId: product.id,
+                        count: 1
+                    });
+                }
+                cart.totalCost += product.costFloat;
+                console.log(cart);
+                fs.writeFile(Cart.getFilePath(), JSON.stringify(cart), 'utf8', (err) => {
+                    callback(err);
+                });
+            })
+        }
     }
 
     public static getCartContents(callback : (contents : CartContents) => void) {

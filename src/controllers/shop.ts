@@ -30,11 +30,6 @@ const postCart = (req: Request, res: Response, next: () => void) => {
         } else {
             res.redirect('/cart');
         }
-    })
-
-    res.render('shop/cart', {
-        pageTitle: "My Cart",
-        path: '/cart'
     });
 }
 

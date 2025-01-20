@@ -31,10 +31,6 @@ const postCart = (req, res, next) => {
             res.redirect('/cart');
         }
     });
-    res.render('shop/cart', {
-        pageTitle: "My Cart",
-        path: '/cart'
-    });
 };
 const getOrders = (req, res, next) => {
     res.render('shop/orders', {

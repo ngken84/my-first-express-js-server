@@ -18,4 +18,6 @@ router.get('/orders', ShopController.getOrders);
 
 router.get('/checkout', ShopController.getCart);
 
+router.post('/removefromcart', ShopController.postRemoveFromCart);
+
 export default router;

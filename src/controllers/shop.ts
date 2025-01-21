@@ -58,6 +58,21 @@ const postCart = (req: Request, res: Response, next: () => void) => {
     });
 }
 
+const postRemoveFromCart = (req: Request, res: Response, next: () => void) => {
+    const { id } = req.body;
+    const numId = parseInt(id);
+
+    Product.fetchById(numId, (product) => {
+        if(product) {
+            Cart.removeProduct(product, (err) => {
+                res.redirect('/cart');
+            })
+        } else {
+            res.redirect('/cart');
+        }
+    });
+}
+
 const getOrders = (req: Request, res: Response, next: () => void) => {
     res.render('shop/orders', {
         pageTitle: "My Orders",
@@ -98,6 +113,7 @@ const ShopController = {
     getOrders,
     getCart,
     postCart,
+    postRemoveFromCart,
     getProduct
 }
 

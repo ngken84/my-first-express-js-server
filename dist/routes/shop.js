@@ -13,4 +13,5 @@ router.get('/cart', shop_1.default.getCart);
 router.post('/cart', shop_1.default.postCart);
 router.get('/orders', shop_1.default.getOrders);
 router.get('/checkout', shop_1.default.getCart);
+router.post('/removefromcart', shop_1.default.postRemoveFromCart);
 exports.default = router;

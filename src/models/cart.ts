@@ -39,11 +39,27 @@ export default class Cart {
         }
     }
 
-    // public static removeProduct(product: Product, callback: (err: NodeJS.ErrnoException) => void) {
-    //     if(product) {
-    //         Cart.getCartContents()
-    //     }
-    // }
+    public static removeProduct(product: Product, callback: (err: NodeJS.ErrnoException | null) => void) {
+        if(product) {
+            Cart.getCartContents((contents) => {
+                const item = contents.products.find((i) => i.productId === product.id)
+                if(item) {
+                    let newCost = contents.totalCost - (product.costFloat * item.count);
+                    let newContents : CartContents = {
+                        products: contents.products.filter((i) => i.productId !== product.id),
+                        totalCost: newCost
+                    }
+                    fs.writeFile(Cart.getFilePath(), JSON.stringify(newContents), 'utf8', (err) => {
+                        callback(err);
+                    });
+                } else {
+                    callback(null);
+                }
+            })
+        } else {
+            callback(null);
+        }
+    }
 
     public static getCartContents(callback : (contents : CartContents) => void) {
         const file = Cart.getFilePath();

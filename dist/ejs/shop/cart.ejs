@@ -16,7 +16,9 @@
                                 <img src="<%= cartItem.product.imageUrl %>" alt="Cart Item" height="150px">
                             </div>
                             <div class="cart-item__body">
-                                <h3 class="cart-item__title"><%= cartItem.product.title %></h3>
+                                <h3 class="cart-item__title">
+                                    <a href="/product/<%= cartItem.product.id %>"><%= cartItem.product.title %></a>
+                                </h3>
                                 <p>
                                     <%= cartItem.product.description %>
                                 </p>

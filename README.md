@@ -341,5 +341,72 @@ const getProduct = (req: Request, res: Response, next: () => void) {
 }
 ```
 
-## Using Query Params
+# Databases
 
+Goal : Store data and make it easy to access
+- fast
+- effecient
+
+
+## Kinds of Databases
+
+### SQL
+
+Structured Query Language
+
+Examples : MySQL
+
+Structured in Tables with fields/columns
+  - Strong data Schema
+  - All data in the table must fit in the table.
+A entry of data is a row.
+
+Allow you to relate data within different tables.
+  - One to One
+  - One to Many
+  - Many to Many
+
+Query is how we interact with the database
+
+```
+SELECT * FROM users WHERE age > 28
+```
+
+
+### NoSQL
+
+Example: MongoDB
+
+No schemas or relations
+
+Databases are not tables they are COLLECTIONS but are similar to tables
+Items in the Collection are DOCUMENTS
+
+Documents are like Javascript objects. They do not have a strict structure or Schema.
+
+No Relations! We go for duplicate data. If data changes then it must be updated in multiple places.
+
+### Comparing SQL vs NoSQL
+
+#### Horizontal Scaling
+
+Adding more servers to hold database. Split data across all data. But requires you to query every database
+
+Horizontal Scaling is almost impossible in SQL.
+Horizontal Scaling is easy in NoSQL
+
+#### Vertical Scaling
+
+Adding more Server Capacity
+
+It is limited!
+
+Vertical Scaling is probably the only way to improve SQL
+Vertical Scaling is ok in NoSQL
+
+## Using MySQL
+
+First install a dependancy
+```
+npm install --save mysql2
+```

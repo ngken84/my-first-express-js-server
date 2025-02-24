@@ -8,8 +8,6 @@ import shopRoutes from './routes/shop';
 
 import ErrorController from './controllers/error';
 
-import pool from './helper/database';
-
 const app = express();
 
 // app.set('view engine', 'pug');
@@ -22,14 +20,6 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'ejs'));
-
-pool.execute('SELECT * FROM products')
-    .then(result => {
-        console.log(result);
-    })
-    .catch(err => {
-        console.log(err);
-    });
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

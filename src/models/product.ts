@@ -2,10 +2,13 @@ import * as fs from 'fs';
 import path from 'path';
 import rootDir from '../helper/path';
 
-export interface ProductInterface {
+import pool from '../helper/database';
+import { RowDataPacket } from 'mysql2';
+
+export interface ProductInterface extends RowDataPacket{
     title: string,
     description: string,
-    cost: string,
+    price: number,
     imageUrl: string,
     id: number
 }
@@ -17,18 +20,11 @@ export default class Product {
     constructor(
         public title: string, 
         public description: string,
-        public cost: string,
+        public price: number,
         public imageUrl: string,
         id = 0
     ) {
-        if(id < 1) {
-            this.id = Date.now();
-        } else {
-            this.id = id;
-        }
-        if(this.cost && this.cost.length > 0 && this.cost[0] !== '$') {
-            this.cost = '$' + this.cost;
-        }
+        this.id = id;
     }
 
     validateTitle() {
@@ -44,12 +40,8 @@ export default class Product {
     }
     
     validateCost() {
-        if(!this.cost || this.cost.length == 0) {
-            return "Please enter a cost.";
-        }
-        const regex = /^\$?(0|[1-9]\d*)(\.\d{1,2})?$/;
-        if(!regex.test(this.cost)) {
-            return "Please enter a valid cost.";
+        if(this.price < 0) {
+            return "Please enter a valid cost";
         }
     }
 
@@ -64,7 +56,7 @@ export default class Product {
     }
 
     get costFloat() {
-        return parseFloat(this.cost.substring(1));
+        return this.price;
     }
 
     private static getFilePath() {
@@ -82,91 +74,94 @@ export default class Product {
         });
     }
 
-    save(allowOverwrite: boolean, callback: (err: NodeJS.ErrnoException | null) => void) {
-        Product.getProductJsonArrayFromFile((array) => {
-            if(allowOverwrite) {
-                const newArray = array.filter((p) => p.id !== this.id);
-                newArray.push({
-                    title: this.title, 
-                    description: this.description,
-                    cost: this.cost,
-                    imageUrl: this.imageUrl,
-                    id: this.id
-                });
-                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
-                    callback(err);
-                });
-            } else {
-                const search = array.find((p) => p.id === this.id);
-                if(search) {
-                    return callback(null);
-                }
-                array.push({
-                    title: this.title, 
-                    description: this.description,
-                    cost: this.cost,
-                    imageUrl: this.imageUrl,
-                    id: this.id
-                })
-                fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
-                    callback(err);
-                });
-            }
-        });
+    save(callback: (err: NodeJS.ErrnoException | null) => void) {
+        console.log("SAVING");
+        console.log(this.id);
+        if(this.id > 0) {
+
+        } else {
+            console.log("HERE");
+            console.log("title " + this.title);
+            pool.execute("INSERT INTO products (title, description, price, imageUrl) VALUES (?, ?, ?, ?)", 
+                [
+                    this.title,
+                    this.description,
+                    this.price,
+                    this.imageUrl
+                ]
+            ).then(() => {
+                callback(null);
+            }).catch(err => {
+                console.log(err);
+                callback(err);
+            })
+        }
     }
 
     static fetchAll(callback: (products : Product[]) => void) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const prodArray: Product[] = [];
-            for(let prodJson of array) {
-                let newProduct = new Product(
-                    prodJson.title, 
-                    prodJson.description, 
-                    prodJson.cost, 
-                    prodJson.imageUrl, 
-                    prodJson.id);
-                prodArray.push(newProduct);
+        const prodArray: Product[] = [];
+        pool.execute<ProductInterface[]>("SELECT * from products")
+        .then(([rows, fieldData]) => {
+            const products : Product[] = []
+            for(let data of rows) {
+                products.push(new Product(
+                    data.title,
+                    data.description,
+                    data.price,
+                    data.imageUrl,
+                    data.id
+                ));
             }
-            callback(prodArray);
-        });
+            callback(products);
+        })
+        
     }
 
     static deleteById(id: number, callback: (deletedProduct: Product | undefined) => void) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const p = array.filter(o => o.id === id) as ProductInterface[];
-            if(p) {
-                const newArray = array.filter(o => o.id !== id);
-                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
-                    callback(new Product(p[0].title, p[0].description, p[0].cost, p[0].imageUrl, p[0].id));
-                })
+        pool.execute<ProductInterface[]>("SELECT * from products WHERE id=" + id)
+        .then(([rows, fieldData]) => {
+            if(rows.length > 0) {
+                let data = rows[0];
+                const deletedProduct = new Product(
+                    data.title,
+                    data.description,
+                    data.price,
+                    data.imageUrl,
+                    data.id
+                );
+                pool.execute("DELETE FROM products WHERE id=" + id)
+                .then((_ => {
+                    callback(deletedProduct);
+                }));
             } else {
                 callback(undefined);
             }
-        })
+        });
     }
 
     static fetchById(id: number, callback: (product : Product | undefined) => void) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const p = array.find(o => o.id === id);
-            if(p) {
-                callback(new Product(
-                    p.title,
-                    p.description,
-                    p.cost,
-                    p.imageUrl,
-                    p.id
+        pool.execute<ProductInterface[]>("SELECT * FROM products WHERE id=" + id)
+        .then(([rows, fieldData]) => {
+            if(rows.length > 0) {
+                let data = rows[0];
+                return callback(new Product(
+                    data.title,
+                    data.description,
+                    data.price,
+                    data.imageUrl,
+                    data.id
                 ));
-            } else {
-                callback(undefined);
             }
+            return callback(undefined);
         })
     }
 
     static fetchMapByIds(ids: number[], callback: (productMap : Map<number, ProductInterface>) => void) {
-        Product.getProductJsonArrayFromFile((products) => {
-            const list = products.filter((p) => ids.includes(p.id));
+        
+        pool.execute<ProductInterface[]>("SELECT * from products")
+        .then(([rows, fieldData]) => {
+            const list = rows.filter((p) => ids.includes(p.id));
             const map = new Map<number, ProductInterface>();
-            console.log(list);
             for(let i = 0; i < list.length; ++i) {
                 map.set(list[i].id, list[i]);
             }

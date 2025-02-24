@@ -8,7 +8,7 @@ const getAddProduct = (req, res, next) => {
     res.render('admin/add-product', {
         pageTitle: "ADMIN: Add Product",
         path: '/admin/add-product',
-        product: new product_1.default('', '', '', ''),
+        product: new product_1.default('', '', 1, ''),
         descriptionError: undefined,
         titleError: undefined,
         imageError: undefined,
@@ -33,7 +33,7 @@ const postAddProduct = (req, res, next) => {
             imageError
         });
     }
-    product.save(false, (err) => {
+    product.save((err) => {
         res.redirect('/admin/product-list');
     });
 };
@@ -87,7 +87,7 @@ const postEditProduct = (req, res, next) => {
     }
     product_1.default.fetchById(numid, (pr) => {
         if (pr) {
-            product.save(true, (err) => {
+            product.save((err) => {
                 res.redirect("/admin/product-list");
             });
         }

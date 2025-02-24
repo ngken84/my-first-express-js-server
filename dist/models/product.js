@@ -29,21 +29,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const path_2 = __importDefault(require("../helper/path"));
+const database_1 = __importDefault(require("../helper/database"));
 class Product {
-    constructor(title, description, cost, imageUrl, id = 0) {
+    constructor(title, description, price, imageUrl, id = 0) {
         this.title = title;
         this.description = description;
-        this.cost = cost;
+        this.price = price;
         this.imageUrl = imageUrl;
-        if (id < 1) {
-            this.id = Date.now();
-        }
-        else {
-            this.id = id;
-        }
-        if (this.cost && this.cost.length > 0 && this.cost[0] !== '$') {
-            this.cost = '$' + this.cost;
-        }
+        this.id = id;
     }
     validateTitle() {
         if (!this.title || this.title.length == 0) {
@@ -56,12 +49,8 @@ class Product {
         }
     }
     validateCost() {
-        if (!this.cost || this.cost.length == 0) {
-            return "Please enter a cost.";
-        }
-        const regex = /^\$?(0|[1-9]\d*)(\.\d{1,2})?$/;
-        if (!regex.test(this.cost)) {
-            return "Please enter a valid cost.";
+        if (this.price < 0) {
+            return "Please enter a valid cost";
         }
     }
     validateImageUrl() {
@@ -74,7 +63,7 @@ class Product {
         }
     }
     get costFloat() {
-        return parseFloat(this.cost.substring(1));
+        return this.price;
     }
     static getFilePath() {
         return path_1.default.join(path_2.default, 'data', 'products.json');
@@ -89,57 +78,48 @@ class Product {
             callback(products);
         });
     }
-    save(allowOverwrite, callback) {
-        Product.getProductJsonArrayFromFile((array) => {
-            if (allowOverwrite) {
-                const newArray = array.filter((p) => p.id !== this.id);
-                newArray.push({
-                    title: this.title,
-                    description: this.description,
-                    cost: this.cost,
-                    imageUrl: this.imageUrl,
-                    id: this.id
-                });
-                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
-                    callback(err);
-                });
-            }
-            else {
-                const search = array.find((p) => p.id === this.id);
-                if (search) {
-                    return callback(null);
-                }
-                array.push({
-                    title: this.title,
-                    description: this.description,
-                    cost: this.cost,
-                    imageUrl: this.imageUrl,
-                    id: this.id
-                });
-                fs.writeFile(Product.getFilePath(), JSON.stringify(array), 'utf8', (err) => {
-                    callback(err);
-                });
-            }
-        });
+    save(callback) {
+        console.log("SAVING");
+        console.log(this.id);
+        if (this.id > 0) {
+        }
+        else {
+            console.log("HERE");
+            console.log("title " + this.title);
+            database_1.default.execute("INSERT INTO products (title, description, price, imageUrl) VALUES (?, ?, ?, ?)", [
+                this.title,
+                this.description,
+                this.price,
+                this.imageUrl
+            ]).then(() => {
+                callback(null);
+            }).catch(err => {
+                console.log(err);
+                callback(err);
+            });
+        }
     }
     static fetchAll(callback) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const prodArray = [];
-            for (let prodJson of array) {
-                let newProduct = new Product(prodJson.title, prodJson.description, prodJson.cost, prodJson.imageUrl, prodJson.id);
-                prodArray.push(newProduct);
+        const prodArray = [];
+        database_1.default.execute("SELECT * from products")
+            .then(([rows, fieldData]) => {
+            const products = [];
+            for (let data of rows) {
+                products.push(new Product(data.title, data.description, data.price, data.imageUrl, data.id));
             }
-            callback(prodArray);
+            callback(products);
         });
     }
     static deleteById(id, callback) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const p = array.filter(o => o.id === id);
-            if (p) {
-                const newArray = array.filter(o => o.id !== id);
-                fs.writeFile(Product.getFilePath(), JSON.stringify(newArray), 'utf8', (err) => {
-                    callback(new Product(p[0].title, p[0].description, p[0].cost, p[0].imageUrl, p[0].id));
-                });
+        database_1.default.execute("SELECT * from products WHERE id=" + id)
+            .then(([rows, fieldData]) => {
+            if (rows.length > 0) {
+                let data = rows[0];
+                const deletedProduct = new Product(data.title, data.description, data.price, data.imageUrl, data.id);
+                database_1.default.execute("DELETE FROM products WHERE id=" + id)
+                    .then((_ => {
+                    callback(deletedProduct);
+                }));
             }
             else {
                 callback(undefined);
@@ -147,21 +127,20 @@ class Product {
         });
     }
     static fetchById(id, callback) {
-        Product.getProductJsonArrayFromFile((array) => {
-            const p = array.find(o => o.id === id);
-            if (p) {
-                callback(new Product(p.title, p.description, p.cost, p.imageUrl, p.id));
+        database_1.default.execute("SELECT * FROM products WHERE id=" + id)
+            .then(([rows, fieldData]) => {
+            if (rows.length > 0) {
+                let data = rows[0];
+                return callback(new Product(data.title, data.description, data.price, data.imageUrl, data.id));
             }
-            else {
-                callback(undefined);
-            }
+            return callback(undefined);
         });
     }
     static fetchMapByIds(ids, callback) {
-        Product.getProductJsonArrayFromFile((products) => {
-            const list = products.filter((p) => ids.includes(p.id));
+        database_1.default.execute("SELECT * from products")
+            .then(([rows, fieldData]) => {
+            const list = rows.filter((p) => ids.includes(p.id));
             const map = new Map();
-            console.log(list);
             for (let i = 0; i < list.length; ++i) {
                 map.set(list[i].id, list[i]);
             }

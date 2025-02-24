@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-control <%= costError ? 'has-error' : '' %>">
                     <label for="cost">Cost</label>
-                    <input id="cost" type="text" value="<%= product.cost %>" name="cost">
+                    <input id="cost" type="text" value="<%= product.price %>" name="cost">
                     <% if(costError) { %>
                         <div class="form-control-error">
                             <%= costError %>

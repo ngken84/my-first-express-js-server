@@ -79,13 +79,9 @@ class Product {
         });
     }
     save(callback) {
-        console.log("SAVING");
-        console.log(this.id);
         if (this.id > 0) {
         }
         else {
-            console.log("HERE");
-            console.log("title " + this.title);
             database_1.default.execute("INSERT INTO products (title, description, price, imageUrl) VALUES (?, ?, ?, ?)", [
                 this.title,
                 this.description,
@@ -111,12 +107,12 @@ class Product {
         });
     }
     static deleteById(id, callback) {
-        database_1.default.execute("SELECT * from products WHERE id=" + id)
+        database_1.default.execute("SELECT * from products WHERE id= ?", [id])
             .then(([rows, fieldData]) => {
             if (rows.length > 0) {
                 let data = rows[0];
                 const deletedProduct = new Product(data.title, data.description, data.price, data.imageUrl, data.id);
-                database_1.default.execute("DELETE FROM products WHERE id=" + id)
+                database_1.default.execute("DELETE FROM products WHERE id=?", [id])
                     .then((_ => {
                     callback(deletedProduct);
                 }));
@@ -127,7 +123,7 @@ class Product {
         });
     }
     static fetchById(id, callback) {
-        database_1.default.execute("SELECT * FROM products WHERE id=" + id)
+        database_1.default.execute("SELECT * FROM products WHERE id=?", [id])
             .then(([rows, fieldData]) => {
             if (rows.length > 0) {
                 let data = rows[0];

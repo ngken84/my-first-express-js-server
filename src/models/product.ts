@@ -75,13 +75,9 @@ export default class Product {
     }
 
     save(callback: (err: NodeJS.ErrnoException | null) => void) {
-        console.log("SAVING");
-        console.log(this.id);
         if(this.id > 0) {
 
         } else {
-            console.log("HERE");
-            console.log("title " + this.title);
             pool.execute("INSERT INTO products (title, description, price, imageUrl) VALUES (?, ?, ?, ?)", 
                 [
                     this.title,
@@ -118,7 +114,7 @@ export default class Product {
     }
 
     static deleteById(id: number, callback: (deletedProduct: Product | undefined) => void) {
-        pool.execute<ProductInterface[]>("SELECT * from products WHERE id=" + id)
+        pool.execute<ProductInterface[]>("SELECT * from products WHERE id= ?", [id])
         .then(([rows, fieldData]) => {
             if(rows.length > 0) {
                 let data = rows[0];
@@ -129,7 +125,7 @@ export default class Product {
                     data.imageUrl,
                     data.id
                 );
-                pool.execute("DELETE FROM products WHERE id=" + id)
+                pool.execute("DELETE FROM products WHERE id=?", [id])
                 .then((_ => {
                     callback(deletedProduct);
                 }));
@@ -140,7 +136,7 @@ export default class Product {
     }
 
     static fetchById(id: number, callback: (product : Product | undefined) => void) {
-        pool.execute<ProductInterface[]>("SELECT * FROM products WHERE id=" + id)
+        pool.execute<ProductInterface[]>("SELECT * FROM products WHERE id=?", [id])
         .then(([rows, fieldData]) => {
             if(rows.length > 0) {
                 let data = rows[0];

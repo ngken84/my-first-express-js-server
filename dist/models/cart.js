@@ -43,7 +43,7 @@ class Cart {
                         count: 1
                     });
                 }
-                cart.totalCost += product.costFloat;
+                cart.totalCost += product.price;
                 console.log(cart);
                 fs.writeFile(Cart.getFilePath(), JSON.stringify(cart), 'utf8', (err) => {
                     callback(err);
@@ -56,7 +56,7 @@ class Cart {
             Cart.getCartContents((contents) => {
                 const item = contents.products.find((i) => i.productId === product.id);
                 if (item) {
-                    let newCost = contents.totalCost - (product.costFloat * item.count);
+                    let newCost = contents.totalCost - (product.price * item.count);
                     let newContents = {
                         products: contents.products.filter((i) => i.productId !== product.id),
                         totalCost: newCost

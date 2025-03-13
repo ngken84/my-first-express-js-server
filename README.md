@@ -410,3 +410,49 @@ First install a dependancy
 ```
 npm install --save mysql2
 ```
+
+## Using Sequelize
+
+Create our sequelize object:
+
+```
+export default class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> 
+{
+  ...
+}
+```
+
+Then declare the parameters of the object:
+```
+    declare id: CreationOptional<number>;
+    declare title: string;
+    declare description: string;
+    declare price: number;
+    declare imageUrl: string;
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
+```
+
+Then set up the usage of the sequelize object:
+```
+const sequelize = new Sequelize('node-complete', 'root', 'testpassword', {
+    dialect: 'mysql',
+    host: 'localhost'
+});
+
+export default sequelize;
+```
+Then in app js
+```
+import sequelize from './helper/database';
+
+...
+sequelize.sync().then((_)=> {
+    app.listen(3000);
+}).catch(err => {
+    console.log(err);
+})
+```
+### Creating a Sequalize entry
+
+

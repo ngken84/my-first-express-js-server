@@ -9,6 +9,7 @@ const path_1 = __importDefault(require("path"));
 // import { engine } from 'express-handlebars';
 const admin_1 = __importDefault(require("./routes/admin"));
 const shop_1 = __importDefault(require("./routes/shop"));
+const database_1 = __importDefault(require("./helper/database"));
 const error_1 = __importDefault(require("./controllers/error"));
 const app = (0, express_1.default)();
 // app.set('view engine', 'pug');
@@ -25,4 +26,8 @@ app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 app.use('/admin', admin_1.default);
 app.use(shop_1.default);
 app.use('/', error_1.default.error404);
-app.listen(3000);
+database_1.default.sync().then((_) => {
+    app.listen(3000);
+}).catch(err => {
+    console.log(err);
+});

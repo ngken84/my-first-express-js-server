@@ -6,6 +6,8 @@ import path from 'path'
 import adminRoutes from './routes/admin';
 import shopRoutes from './routes/shop';
 
+import sequelize from './helper/database';
+
 import ErrorController from './controllers/error';
 
 const app = express();
@@ -30,4 +32,9 @@ app.use(shopRoutes);
 
 app.use('/', ErrorController.error404);
 
-app.listen(3000);
+sequelize.sync().then((_)=> {
+    app.listen(3000);
+}).catch(err => {
+    console.log(err);
+})
+
